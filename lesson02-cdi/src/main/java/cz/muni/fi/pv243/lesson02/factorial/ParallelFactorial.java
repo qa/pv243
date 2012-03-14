@@ -28,7 +28,7 @@ public class ParallelFactorial extends FactorialImpl {
             Future<BigInteger> firstPart = math.multiplySequenceAsync(1, part);
             Future<BigInteger> secondPart = math.multiplySequenceAsync(part + 1, number);
             try {
-                return firstPart.get().multiply(secondPart.get());
+                return fireEvent(number, firstPart.get().multiply(secondPart.get()));
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
