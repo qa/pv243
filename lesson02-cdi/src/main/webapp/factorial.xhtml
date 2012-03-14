@@ -17,7 +17,7 @@
 			<h:messages />
 			<h:panelGrid rendered="#{number != null}">
                     The byte representation of #{number}! is:
-                <h:outputText value="#{factorial.compute(number)}"
+                <h:outputText value="#{parallelFactorial.compute(number)}"
 					rendered="#{number != null}">
 					<f:converter converterId="bigIntegerByteArray" />
 				</h:outputText>
