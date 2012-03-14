@@ -6,4 +6,7 @@
 	xsi:schemaLocation="
         http://java.sun.com/xml/ns/javaee 
         http://java.sun.com/xml/ns/javaee/beans_1_0.xsd">
+	<decorators>
+		<class>cz.muni.fi.pv243.lesson02.factorial.CacheAwareFactorialDecorator</class>
+	</decorators>
 </beans>
