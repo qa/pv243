@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/WEB-INF/templates/default.xhtml">
+	<ui:define name="content">
+		<h1>Student registration</h1>
+		<h:form>
+			<h:panelGrid columns="2">
+				<h:outputText value="First name:" />
+				<h:outputText value="#{student.firstName}" />
+				<h:outputText value="Surname" />
+				<h:outputText value="#{student.surname}" />
+				<h:outputText value="E-mail" />
+				<h:outputText value="#{student.email}" />
+				<h:outputText value="Country" />
+				<h:outputText value="#{student.country.label}" />
+				<h:outputText value="City" />
+				<h:outputText value="#{student.city}" />
+				<h:messages />
+			</h:panelGrid>
+			<h:panelGrid columns="3">
+				<h:commandButton immediate="true" value="Cancel"
+					action="#{studentRegistrationWizard.cancel}">
+				</h:commandButton>
+				<h:commandButton value="Back" action="registration2" />
+				<h:commandButton value="Register"
+					action="#{studentRegistrationWizard.register}" />
+			</h:panelGrid>
+		</h:form>
+	</ui:define>
+</ui:composition>

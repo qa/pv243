@@ -1,0 +1,27 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<ui:composition template="WEB-INF/templates/default.xhtml">
+	<ui:define name="content">
+		<h1>Factorial</h1>
+		<h:form>
+			<h:inputText id="number" value="" required="true">
+				<f:validateLongRange minimum="0" />
+			</h:inputText>
+			<h:commandButton value="Compute" action="" />
+			<h:commandButton value="Reset" action="" immediate="true" />
+			<br />
+			<br />
+			<h:messages />
+			<h:panelGrid rendered="">
+				The byte representation of #{number}! is:
+				<h:outputText value="">
+					<f:converter converterId="bigIntegerByteArray" />
+				</h:outputText>
+			</h:panelGrid>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

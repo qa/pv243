@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+   <title>PV243 Advanced Java technologies</title>
+   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+   <h:outputStylesheet name="css/screen.css" />
+</h:head>
+<h:body>
+   <div id="container">
+      <div id="content">
+         <div id="sidebar">
+            <h3>Find out more</h3>
+            <p>Learn about WildFly 8.</p>
+            <ul>
+            <li><a
+               href="http://www.jboss.org/jdf/quickstarts/jboss-as-quickstart/guide/Introduction/">
+               Getting Started Developing Applications Guide</a></li>
+            <li><a href="http://wildfly.org/">WildFly 8 project
+                  site</a></li>
+            </ul>
+            <p>Learn about the Java EE 7 platform and the component
+               model it provides.</p>
+            <ul>
+               <li><a
+                  href="http://docs.oracle.com/javaee/7/tutorial/doc/">Java
+                     EE 7 tutorial</a></li>
+               <li><a
+                  href="http://cdi-spec.org">CDI specification</a></li>
+               <li><a
+                  href="http://weld.cdi-spec.org">Weld project web site</a></li>
+            </ul>
+         </div>
+         <ui:insert name="content">
+                    [Template content will be inserted here]
+                </ui:insert>
+      </div>
+      <div id="footer">
+         <a href="index.jsf"><h:graphicImage value="/resources/gfx/logo.png" alt="Weld logo" /></a>
+         <p>
+            This project was generated from a Maven archetype from
+            JBoss.<br />
+         </p>
+      </div>
+   </div>
+</h:body>
+</html>
