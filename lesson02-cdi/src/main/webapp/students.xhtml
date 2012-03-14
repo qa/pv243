@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/WEB-INF/templates/default.xhtml">
+	<ui:define name="content">
+		<h1>Students</h1>
+		<h:outputText value="No students"
+			rendered="#{empty allStudentsSortedByName}" />
+		<h:dataTable value="#{allStudentsSortedByName}" var="_student"
+			rendered="#{not empty allStudentsSortedByName}">
+			<h:column>
+				<f:facet name="header">Id</f:facet>
+                #{_student.id}
+            </h:column>
+			<h:column>
+				<f:facet name="header">First name</f:facet>
+                #{_student.firstName}
+            </h:column>
+			<h:column>
+				<f:facet name="header">Surname</f:facet>
+                #{_student.surname}
+            </h:column>
+			<h:column>
+				<f:facet name="header">e-mail</f:facet>
+                #{_student.email}
+            </h:column>
+			<h:column>
+				<f:facet name="header">Country</f:facet>
+                #{_student.country.label}
+            </h:column>
+			<h:column>
+				<f:facet name="header">City</f:facet>
+                #{_student.city}
+            </h:column>
+		</h:dataTable>
+		<a href="registration1.jsf">Register</a>
+	</ui:define>
+</ui:composition>
