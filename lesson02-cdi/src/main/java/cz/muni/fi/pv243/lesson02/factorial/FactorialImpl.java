@@ -4,8 +4,10 @@ import java.math.BigInteger;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 
 @ApplicationScoped
+@Named("factorial")
 public class FactorialImpl implements Factorial {
 
     @Inject
