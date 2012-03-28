@@ -19,6 +19,10 @@ public interface Pages {
         VIEW,
         
         @ViewPattern("/edit.xhtml")
+		@LoginView("/login.xhtml")
+		@AccessDeniedView("/denied.xhtml")
+		@LoggedIn
+		@RestrictAtPhase({PhaseIdType.RESTORE_VIEW, PhaseIdType.INVOKE_APPLICATION})
         EDIT,
         
         @ViewPattern("/bakerylist.xhtml")

@@ -1,6 +1,7 @@
 package cz.muni.fi.pv243.lesson03.action;
 
 import javax.ejb.Stateless;
+import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
@@ -15,6 +16,9 @@ public class BakeryAction
    @Inject
    private EntityManager em;
    
+   @Inject
+   private Event<BakeryEditedEvent> bakeryEdited;
+   
    @Begin
    public void edit()
    {
@@ -24,6 +28,7 @@ public class BakeryAction
    public void save()
    {
       em.flush();
+      bakeryEdited.fire(new BakeryEditedEvent());
    }
    
    @End
