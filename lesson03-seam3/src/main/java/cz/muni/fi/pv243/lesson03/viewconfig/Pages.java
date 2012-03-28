@@ -10,6 +10,7 @@ import org.jboss.seam.faces.view.config.ViewPattern;
 import org.jboss.seam.security.annotations.LoggedIn;
 
 import cz.muni.fi.pv243.lesson03.security.Admin;
+import cz.muni.fi.pv243.lesson03.security.IsManagerOf;
 
 @ViewConfig
 public interface Pages {
@@ -22,6 +23,7 @@ public interface Pages {
 		@LoginView("/login.xhtml")
 		@AccessDeniedView("/denied.xhtml")
 		@LoggedIn
+		@IsManagerOf
 		@RestrictAtPhase({PhaseIdType.RESTORE_VIEW, PhaseIdType.INVOKE_APPLICATION})
         EDIT,
         
