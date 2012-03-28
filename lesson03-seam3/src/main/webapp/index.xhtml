@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	template="/WEB-INF/templates/default.xhtml">
+	<ui:define name="content">
+		<h1>#{hello.header}</h1>
+		
+		<h:messages />
+		
+		<ul>
+			<li><h:link outcome="bakerylist" value="List Bakeries" /></li>
+			<li><h:link outcome="managers" value="List Managers"/></li>
+			
+			<li><h:link outcome="register" value="New Manager"/></li>
+		</ul>
+	</ui:define>
+</ui:composition>

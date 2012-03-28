@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:s="http://jboss.org/seam/faces"
+	template="/WEB-INF/templates/default.xhtml">
+
+	<ui:define name="content">
+
+		<p>
+			<h:messages />
+		</p>
+
+		<h:form>
+			<h1>Edit Bakery</h1>
+
+			<h:panelGrid columns="2">
+				<h:outputLabel value="Name" for="name" />
+				<h:inputText id="name" value="#{bakery.name}" />
+				<h:outputLabel for="address" value="Address" />
+				<h:inputText id="address" value="#{bakery.address}" />
+			</h:panelGrid>
+			<h:panelGroup rendered="#{identity.user.admin}">
+		        <h:outputLabel value="Manager" for="manager"/>
+				<h:selectOneMenu id="manager" value="#{bakery.manager}">
+					<s:objectConverter />
+					<f:selectItems value="#{managers}" var="m"
+						itemLabel="#{m.username}"></f:selectItems>
+				</h:selectOneMenu>
+			</h:panelGroup>
+			<h:dataTable value="#{bakery.cakes}" var="_cake">
+
+				<h:column>
+					<f:facet name="header">Name</f:facet>
+					<h:inputText value="#{_cake.name}" />
+				</h:column>
+
+				<h:column>
+					<f:facet name="header">Price</f:facet>
+					<h:inputText value="#{_cake.price}" />
+				</h:column>
+
+				<h:column>
+					<f:facet name="header">Ingredients</f:facet>
+					<h:dataTable value="#{_cake.ingredients}" var="_ingredient">
+						<h:column>
+	            		#{_ingredient}
+	            		</h:column>
+					</h:dataTable>
+				</h:column>
+
+				<h:column>
+					<h:commandButton action="editcake" value="Edit Cake">
+						<f:setPropertyActionListener target="#{currentCakeProducer.cake}"
+							value="#{_cake}" />
+					</h:commandButton>
+				</h:column>
+			</h:dataTable>
+
+			<h3>Create a new cake</h3>
+			<div>
+				<h:panelGrid columns="2">
+
+					<h:outputLabel for="newCakeName" value="Name" />
+					<h:inputText id="newCakeName" value="#{newCake.name}" />
+					<h:outputLabel for="newCakePrice" value="Price" />
+					<h:inputText id="newCakePrice" value="#{newCake.price}" />
+
+				</h:panelGrid>
+				<h:commandButton action="#{newCakeAction.createCake}"
+					value="Create Cake" />
+			</div>
+
+			<h:commandButton action="#{bakeryAction.save}" value="Done" />
+			<h:commandButton action="#{bakeryAction.cancel}" value="Cancel" />
+		</h:form>
+	</ui:define>
+</ui:composition>

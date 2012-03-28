@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:s="http://jboss.org/seam/faces"
+	template="/WEB-INF/templates/default.xhtml">
+	
+	<ui:define name="header">
+		<f:metadata>
+        	<f:viewParam name="id" value="#{_storeid}"/>
+            <s:viewAction action="#{currentBakeryProducer.setBakeryById(_storeid)}"/>
+        </f:metadata>
+	</ui:define>
+	
+	<ui:define name="content">
+		<h1>#{bakery.name}</h1>
+ 		<p>#{bakery.address}</p>
+		<h:dataTable value="#{bakery.cakes}" var="_cake">
+			
+			<h:column>
+				<f:facet name="header">Name</f:facet>
+                #{_cake.name}
+            </h:column>
+            
+            <h:column>
+            	<f:facet name="header">Price</f:facet>
+                #{_cake.price}
+            </h:column>
+            
+            <h:column>
+            	<f:facet name="header">Ingredients</f:facet>          
+            	#{_cake.ingredientString}
+            </h:column>
+			
+		</h:dataTable>
+	</ui:define>
+</ui:composition>
