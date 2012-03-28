@@ -50,4 +50,14 @@
 			<to-view-id>/index.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
+
+	<navigation-rule>
+		<from-view-id>/view.xhtml</from-view-id>
+		<navigation-case>
+			<from-action>#{currentBakeryProducer.setBakeryById(_storeid)}</from-action>
+			<if>#{currentBakeryProducer.bakery == null}</if>
+			<to-view-id>/denied.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+
 </faces-config>
