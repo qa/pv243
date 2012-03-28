@@ -8,6 +8,7 @@ import javax.persistence.EntityManager;
 
 import org.jboss.seam.faces.context.conversation.Begin;
 import org.jboss.seam.faces.context.conversation.End;
+import org.jboss.solder.exception.control.ExceptionHandled;
 
 @Named
 @Stateless
@@ -25,6 +26,7 @@ public class BakeryAction
    }
 
    @End
+   @ExceptionHandled
    public void save()
    {
       em.flush();
