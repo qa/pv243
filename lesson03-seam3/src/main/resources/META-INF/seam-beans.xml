@@ -1,7 +1,14 @@
 <beans xmlns="http://java.sun.com/xml/ns/javaee"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:s="urn:java:ee"
+       xmlns:p="urn:java:cz.muni.fi.pv243.lesson03.action"
        xsi:schemaLocation="
       http://java.sun.com/xml/ns/javaee
       http://docs.jboss.org/cdi/beans_1_0.xsd">
+
+    <p:Hello>
+        <s:modifies/>
+        <p:header>Welcome to SeamBakeries!</p:header>
+    </p:Hello>
+
 </beans>
