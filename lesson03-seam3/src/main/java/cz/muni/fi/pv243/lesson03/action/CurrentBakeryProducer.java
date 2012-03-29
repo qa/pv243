@@ -2,7 +2,6 @@ package cz.muni.fi.pv243.lesson03.action;
 
 import javax.ejb.Stateful;
 import javax.enterprise.context.ConversationScoped;
-import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
@@ -16,31 +15,29 @@ import java.io.Serializable;
 @Stateful
 public class CurrentBakeryProducer implements Serializable {
 	
-	private Bakery bakery;
+    @Inject
+    CurrentBakeryUnwrapper bakeryUnwrapper;
 	
 	@Inject
 	EntityManager em;
 	
 	public void setBakery(Bakery bakery) {
-		this.bakery = bakery;
+	   bakeryUnwrapper.setCurrentBakery(bakery);
+	}
+	
+	public Bakery getBakery() {
+	   return bakeryUnwrapper.getCurrentBakery();
 	}
 	
 	public void setBakeryById(String bakeryId) {
-		this.bakery = em.find(Bakery.class, Long.parseLong(bakeryId));
+		bakeryUnwrapper.setCurrentBakery(em.find(Bakery.class, Long.parseLong(bakeryId)));
 	}
 	
 	public String getBakeryById() {
-	   if (this.bakery == null) {
+	   if (bakeryUnwrapper.getCurrentBakery() == null) {
 	      return null;
 	   }
 	   
-	   return this.bakery.getId().toString();
-	}
-	
-	@Named
-	@Produces
-	@Current
-	public Bakery getBakery() {
-		return bakery;
+	   return bakeryUnwrapper.getCurrentBakery().getId().toString();
 	}
 }

@@ -1,11 +1,14 @@
 package cz.muni.fi.pv243.lesson03.action;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Model;
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import cz.muni.fi.pv243.lesson03.model.Cake;
 
-@Model
+@ApplicationScoped
+@Named
 public class CakeEditAction
 {
    @Inject

@@ -14,7 +14,10 @@ import javax.persistence.Id;
 import javax.persistence.Transient;
 import javax.persistence.Version;
 
+import org.jboss.solder.core.Veto;
+
 @Entity
+@Veto
 public class Cake implements Serializable
 {
    private Long id;

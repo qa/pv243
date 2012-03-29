@@ -2,7 +2,6 @@ package cz.muni.fi.pv243.lesson03.action;
 
 import javax.ejb.Stateful;
 import javax.enterprise.context.ConversationScoped;
-import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
@@ -16,19 +15,17 @@ import java.io.Serializable;
 @Stateful
 public class CurrentCakeProducer implements Serializable {
 	
-	private Cake cake;
+	@Inject
+	public CurrentCakeUnwrapper cakeUnwrapper;
 	
 	@Inject
 	EntityManager em;
 	
 	public void setCake(Cake cake) {
-		this.cake = cake;
+	   cakeUnwrapper.setCurrentCake(cake);
 	}
 	
-	@Named
-	@Produces
-	@Current
 	public Cake getCake() {
-		return cake;
+	   return cakeUnwrapper.getCurrentCake();
 	}
 }
