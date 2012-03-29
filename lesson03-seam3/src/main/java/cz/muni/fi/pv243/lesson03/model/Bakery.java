@@ -12,7 +12,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Version;
 
+import org.jboss.solder.core.Veto;
+
 @Entity
+@Veto
 public class Bakery implements Serializable
 {
    private Long id;
