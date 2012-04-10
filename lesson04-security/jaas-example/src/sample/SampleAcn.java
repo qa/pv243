@@ -185,7 +185,15 @@ class MyCallbackHandler implements CallbackHandler {
 				System.err.print(pc.getPrompt());
 				System.err.flush();
 				pc.setPassword(readPassword(System.in));
+			} else if (callbacks[i] instanceof TextInputCallback) {
 
+				// prompt the user for a card number
+				TextInputCallback tic = (TextInputCallback) callbacks[i];
+
+				System.err.print(tic.getPrompt());
+				System.err.flush();
+				tic.setText((new BufferedReader(new InputStreamReader(System.in)))
+						.readLine());
 			} else {
 				throw new UnsupportedCallbackException(callbacks[i],
 						"Unrecognized Callback");
