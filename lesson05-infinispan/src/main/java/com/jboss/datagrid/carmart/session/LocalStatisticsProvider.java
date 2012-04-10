@@ -22,60 +22,37 @@
 package com.jboss.datagrid.carmart.session;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.infinispan.manager.DefaultCacheManager;
-import org.infinispan.notifications.Listener;
-import org.infinispan.notifications.cachelistener.annotation.CacheEntryCreated;
-import org.infinispan.notifications.cachelistener.annotation.CacheEntryRemoved;
-import org.infinispan.notifications.cachelistener.annotation.CacheEntryVisited;
-import org.infinispan.notifications.cachelistener.event.CacheEntryCreatedEvent;
-import org.infinispan.notifications.cachelistener.event.CacheEntryRemovedEvent;
-import org.infinispan.notifications.cachelistener.event.CacheEntryVisitedEvent;
+import org.infinispan.stats.Stats;
 import com.jboss.datagrid.carmart.session.StatisticsProvider;
 
 @Named("stats")
-@ApplicationScoped //use application scope so that we can get overall statistics
-@Listener
+@RequestScoped
 public class LocalStatisticsProvider implements StatisticsProvider {
 
     @Inject
     private CacheContainerProvider provider;
 
-    int visits;
-    int creations;
-    int removals;
+    private Stats stats;
 
     @PostConstruct
     public void getStatsObject() {
-        ((DefaultCacheManager) provider.getCacheContainer()).getCache(CarManager.CACHE_NAME).addListener(this);
-    }
-    
-    @CacheEntryCreated
-    public void print(CacheEntryCreatedEvent event) {
-        creations++;
-    }
-    
-    @CacheEntryVisited
-    public void print(CacheEntryVisitedEvent event) {
-        visits++;
-    }
-    
-    @CacheEntryRemoved
-    public void print(CacheEntryRemovedEvent event) {
-        removals++;
+        stats = ((DefaultCacheManager) provider.getCacheContainer()).getCache(CarManager.CACHE_NAME).getAdvancedCache()
+        .getStats();
     }
     
     public String getVisits() {
-        return String.valueOf(visits);
+        return String.valueOf(stats.getHits());
     }
 
     public String getCreations() {
-        return String.valueOf(creations);
+        return String.valueOf(stats.getStores());
     }
 
     public String getRemovals() {
-        return String.valueOf(removals);
+        return String.valueOf(stats.getRemoveHits());
     }
 }
