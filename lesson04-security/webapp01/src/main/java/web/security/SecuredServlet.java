@@ -57,6 +57,8 @@ public class SecuredServlet extends HttpServlet {
     	Writer writer = resp.getWriter();
         writer.write("GOOD - beginning of doGet on servlet\n");
         
+        writer.write(servletRequestInfo(req));
+        
         try {
             writer.write(testBean.echo("successful call to echo method\n"));
         }
@@ -78,6 +80,17 @@ public class SecuredServlet extends HttpServlet {
             writer.write("call to superUserEcho method failed\n");
         }
 
+        writer.write(testBean.sessionContextInfo());
         
     }
+    
+    private String servletRequestInfo(HttpServletRequest req) {
+    	return "========================================================\n" 
+    		   + "RemoteUser: " + req.getRemoteUser() + "\n"
+    		   + "Principal: " + req.getUserPrincipal() + "\n"
+    		   + "user is in superuser role: " + req.isUserInRole("superuser") + "\n"
+    		   + "========================================================\n"
+    	;
+    }
+    
 }
