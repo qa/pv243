@@ -53,7 +53,8 @@ public class SecuredServlet extends HttpServlet {
     
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Writer writer = resp.getWriter();
+        
+    	Writer writer = resp.getWriter();
         writer.write("GOOD - beginning of doGet on servlet\n");
         
         try {
