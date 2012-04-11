@@ -24,7 +24,10 @@ package web.security;
 import java.io.IOException;
 import java.io.Writer;
 
+import javax.annotation.security.DeclareRoles;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.HttpConstraint;
+import javax.servlet.annotation.ServletSecurity;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -35,6 +38,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  */
 @WebServlet(name = "SecuredServlet", urlPatterns = { "/secured/" }, loadOnStartup = 1)
+@ServletSecurity(@HttpConstraint(rolesAllowed = { "gooduser" }))
+@DeclareRoles("gooduser")
 public class SecuredServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;

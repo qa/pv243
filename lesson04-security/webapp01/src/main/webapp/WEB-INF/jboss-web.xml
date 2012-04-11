@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<jboss-web>
+    <security-domain>test</security-domain>
+</jboss-web>
