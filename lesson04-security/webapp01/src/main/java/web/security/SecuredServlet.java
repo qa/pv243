@@ -25,6 +25,8 @@ import java.io.IOException;
 import java.io.Writer;
 
 import javax.annotation.security.DeclareRoles;
+import javax.ejb.EJB;
+import javax.ejb.EJBAccessException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.HttpConstraint;
 import javax.servlet.annotation.ServletSecurity;
@@ -32,6 +34,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import ejb.security.TestBean;
 
 /**
  * A simple servlet that just writes back a string
@@ -44,9 +48,35 @@ public class SecuredServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
 
+    @EJB
+    private TestBean testBean;
+    
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Writer writer = resp.getWriter();
-        writer.write("GOOD");
+        writer.write("GOOD - beginning of doGet on servlet\n");
+        
+        try {
+            writer.write(testBean.echo("successful call to echo method\n"));
+        }
+        catch (EJBAccessException e) {
+            writer.write("call to echo method failed\n");
+        }
+
+        try {
+            writer.write(testBean.goodUserEcho("successful call to goodUserEcho method\n"));
+        }
+        catch (EJBAccessException e) {
+            writer.write("call to goodUserEcho method failed\n");
+        }
+
+        try {
+            writer.write(testBean.superUserEcho("successful call to superUserEcho method\n"));
+        }
+        catch (EJBAccessException e) {
+            writer.write("call to superUserEcho method failed\n");
+        }
+
+        
     }
 }

@@ -1,58 +1,39 @@
 <?xml version="1.0"?>
-<web-app 
- version="3.0" xmlns="http://java.sun.com/xml/ns/javaee"
- xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
- <display-name>A Simple Web Application</display-name>
- <servlet>
-  <servlet-name>SecuredServlet</servlet-name>
-  <servlet-class>web.security.SecuredServlet</servlet-class>
-  <load-on-startup>1</load-on-startup>
- </servlet>
- <servlet-mapping>
-  <servlet-name>SecuredServlet</servlet-name>
-  <url-pattern>/secured/*</url-pattern>
- </servlet-mapping>
- <security-constraint>
-  <display-name>secured servlet override</display-name>
-  <web-resource-collection>
-   <web-resource-name>securedservlet</web-resource-name>
-   <url-pattern>/secured/*</url-pattern>
-  </web-resource-collection>
-  <auth-constraint>
-   <role-name>superuser</role-name>
-  </auth-constraint>
- </security-constraint>
- <security-constraint>
-  <display-name>secret static resources</display-name>
-  <web-resource-collection>
-   <web-resource-name>secret</web-resource-name>
-   <url-pattern>/static/secured/*</url-pattern>
-  </web-resource-collection>
-  <auth-constraint>
-   <role-name>superuser</role-name>
-  </auth-constraint>
- </security-constraint>
- <security-constraint>
-  <display-name>auth users static resources</display-name>
-  <web-resource-collection>
-   <web-resource-name>users</web-resource-name>
-   <url-pattern>/static/*</url-pattern>
-  </web-resource-collection>
-  <auth-constraint>
-   <role-name>*</role-name>
-  </auth-constraint>
- </security-constraint>
- <login-config>
-  <auth-method>BASIC</auth-method>
-  <realm-name>WebSecurityBasic</realm-name>
- </login-config>
- <security-role>
-  <role-name>badguy</role-name>
- </security-role>
- <security-role>
-  <role-name>gooduser</role-name>
- </security-role>
- <security-role>
-  <role-name>superuser</role-name>
- </security-role>
+<web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+	<display-name>A Simple Web Application</display-name>
+	<security-constraint>
+		<display-name>secret static resources</display-name>
+		<web-resource-collection>
+			<web-resource-name>secret</web-resource-name>
+			<url-pattern>/static/secured/*</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>superuser</role-name>
+		</auth-constraint>
+	</security-constraint>
+	<security-constraint>
+		<display-name>auth users static resources</display-name>
+		<web-resource-collection>
+			<web-resource-name>users</web-resource-name>
+			<url-pattern>/static/*</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>*</role-name>
+		</auth-constraint>
+	</security-constraint>
+	<login-config>
+		<auth-method>BASIC</auth-method>
+		<realm-name>WebSecurityBasic</realm-name>
+	</login-config>
+	<security-role>
+		<role-name>badguy</role-name>
+	</security-role>
+	<security-role>
+		<role-name>gooduser</role-name>
+	</security-role>
+	<security-role>
+		<role-name>superuser</role-name>
+	</security-role>
 </web-app>
