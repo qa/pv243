@@ -42,7 +42,7 @@ import ejb.security.TestBean;
  *
  */
 @WebServlet(name = "SecuredServlet", urlPatterns = { "/secured/" }, loadOnStartup = 1)
-@ServletSecurity(@HttpConstraint(rolesAllowed = { "gooduser" }))
+@ServletSecurity(@HttpConstraint(rolesAllowed = { "gooduser","superuser" }))
 @DeclareRoles("gooduser")
 public class SecuredServlet extends HttpServlet {
 
