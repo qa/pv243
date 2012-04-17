@@ -25,11 +25,18 @@ import java.util.logging.Logger;
 import javax.annotation.PreDestroy;
 import javax.enterprise.context.ApplicationScoped;
 import org.infinispan.api.BasicCacheContainer;
+import org.infinispan.configuration.cache.CacheMode;
 import org.infinispan.configuration.cache.Configuration;
 import org.infinispan.configuration.cache.ConfigurationBuilder;
 import org.infinispan.configuration.global.GlobalConfiguration;
 import org.infinispan.configuration.global.GlobalConfigurationBuilder;
+import org.infinispan.eviction.EvictionStrategy;
 import org.infinispan.manager.DefaultCacheManager;
+import org.infinispan.transaction.LockingMode;
+import org.infinispan.transaction.TransactionMode;
+import org.infinispan.transaction.lookup.GenericTransactionManagerLookup;
+import org.infinispan.util.concurrent.IsolationLevel;
+
 import com.jboss.datagrid.carmart.session.CacheContainerProvider;
 
 /**
@@ -48,17 +55,20 @@ public class JBossASCacheContainerProvider implements CacheContainerProvider {
 
     public BasicCacheContainer getCacheContainer() {
         if (manager == null) {
-
-            
-            //*************** amend the configuration ***************
-            
-            GlobalConfiguration glob = new GlobalConfigurationBuilder().build();
-            Configuration loc = new ConfigurationBuilder().build();
-            
-            //*************** amend the configuration ***************
-            
-            
-            manager = new DefaultCacheManager(glob, loc, true); //true means start the cache manager immediately
+            GlobalConfiguration glob = new GlobalConfigurationBuilder()
+                .nonClusteredDefault().globalJmxStatistics().enable()
+                .jmxDomain("org.infinispan.lesson05")  //prevent collision with non-transactional carmart
+                .build();
+            Configuration loc = new ConfigurationBuilder()
+                .jmxStatistics().enable()
+                .clustering().cacheMode(CacheMode.LOCAL)
+                .transaction().transactionMode(TransactionMode.TRANSACTIONAL).autoCommit(false)
+                .lockingMode(LockingMode.OPTIMISTIC).transactionManagerLookup(new GenericTransactionManagerLookup())
+                .locking().isolationLevel(IsolationLevel.REPEATABLE_READ)
+                .eviction().maxEntries(4).strategy(EvictionStrategy.LRU)
+                .loaders().passivation(true).addFileCacheStore().purgeOnStartup(true)
+                .build();
+            manager = new DefaultCacheManager(glob, loc, true);
             log.info("=== Using DefaultCacheManager (library mode) ===");
         }
         return manager;

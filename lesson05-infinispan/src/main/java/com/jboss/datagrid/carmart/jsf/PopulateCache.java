@@ -30,6 +30,8 @@ import javax.faces.event.SystemEvent;
 import javax.faces.event.SystemEventListener;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import javax.transaction.UserTransaction;
+
 import org.infinispan.api.BasicCache;
 import com.jboss.datagrid.carmart.model.Car;
 import com.jboss.datagrid.carmart.model.Car.CarType;
@@ -52,6 +54,8 @@ public class PopulateCache implements SystemEventListener {
     private Logger log = Logger.getLogger(this.getClass().getName());
 
     private CacheContainerProvider provider;
+    
+    private UserTransaction utx;
 
     @Override
     public void processEvent(SystemEvent event) throws AbortProcessingException {
@@ -62,25 +66,39 @@ public class PopulateCache implements SystemEventListener {
     public void startup() {
         BasicCache<String, Object> cars = provider.getCacheContainer().getCache(CarManager.CACHE_NAME);
         List<String> carNumbers = new ArrayList<String>();
-
-        Car c = new Car("Ford Focus", 1.6, CarType.COMBI, "white", "FML 23-25", Country.CZECH_REPUBLIC);
-        carNumbers.add(c.getNumberPlate());
-        cars.put(CarManager.encode(c.getNumberPlate()), c);
-        c = new Car("BMW X3", 2.0, CarType.SEDAN, "gray", "1P3 2632", Country.CZECH_REPUBLIC);
-        carNumbers.add(c.getNumberPlate());
-        cars.put(CarManager.encode(c.getNumberPlate()), c);
-        c = new Car("Ford Mondeo", 2.2, CarType.COMBI, "blue", "1B2 1111", Country.USA);
-        carNumbers.add(c.getNumberPlate());
-        cars.put(CarManager.encode(c.getNumberPlate()), c);
-        c = new Car("Mazda MX-5", 1.8, CarType.CABRIO, "red", "6T4 2526", Country.USA);
-        carNumbers.add(c.getNumberPlate());
-        cars.put(CarManager.encode(c.getNumberPlate()), c);
-        c = new Car("VW Golf", 1.6, CarType.HATCHBACK, "yellow", "2B2 4946", Country.GERMANY);
-        carNumbers.add(c.getNumberPlate());
-        cars.put(CarManager.encode(c.getNumberPlate()), c);
-        // insert a list of cars' number plates
-        cars.put(CarManager.CAR_NUMBERS_KEY, carNumbers);
-        log.info("Successfully imported data!");
+        
+        utx = getUserTransactionFromJNDI();
+        
+        try {
+            utx.begin();
+            Car c = new Car("Ford Focus", 1.6, CarType.COMBI, "white", "FML 23-25", Country.CZECH_REPUBLIC);
+            carNumbers.add(c.getNumberPlate());
+            cars.put(CarManager.encode(c.getNumberPlate()), c);
+            c = new Car("BMW X3", 2.0, CarType.SEDAN, "gray", "1P3 2632", Country.CZECH_REPUBLIC);
+            carNumbers.add(c.getNumberPlate());
+            cars.put(CarManager.encode(c.getNumberPlate()), c);
+            c = new Car("Ford Mondeo", 2.2, CarType.COMBI, "blue", "1B2 1111", Country.USA);
+            carNumbers.add(c.getNumberPlate());
+            cars.put(CarManager.encode(c.getNumberPlate()), c);
+            c = new Car("Mazda MX-5", 1.8, CarType.CABRIO, "red", "6T4 2526", Country.USA);
+            carNumbers.add(c.getNumberPlate());
+            cars.put(CarManager.encode(c.getNumberPlate()), c);
+            c = new Car("VW Golf", 1.6, CarType.HATCHBACK, "yellow", "2B2 4946", Country.GERMANY);
+            carNumbers.add(c.getNumberPlate());
+            cars.put(CarManager.encode(c.getNumberPlate()), c);
+            // insert a list of cars' number plates
+            cars.put(CarManager.CAR_NUMBERS_KEY, carNumbers);
+            utx.commit();
+            log.info("Successfully imported data!");
+        } catch (Exception e) {
+            log.warning("An exception occured while populating the database! Rolling back the transaction.");
+            if (utx != null) {
+                try {
+                    utx.rollback();
+                } catch (Exception e1) {
+                }
+            }
+        }
     }
 
     private BeanManager getBeanManagerFromJNDI() {
@@ -93,6 +111,18 @@ public class PopulateCache implements SystemEventListener {
             throw new RuntimeException("BeanManager could not be found in JNDI", e);
         }
         return (BeanManager) result;
+    }
+    
+    private UserTransaction getUserTransactionFromJNDI() {
+        InitialContext context;
+        Object result;
+        try {
+            context = new InitialContext();
+            result = context.lookup("java:comp/UserTransaction"); // lookup in JBossAS
+        } catch (NamingException ex) {
+            throw new RuntimeException("UserTransaction could not be found in JNDI", ex);
+        }
+        return (UserTransaction) result;
     }
 
     @SuppressWarnings("unchecked")

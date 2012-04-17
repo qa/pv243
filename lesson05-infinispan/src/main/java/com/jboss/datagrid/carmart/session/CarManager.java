@@ -49,6 +49,9 @@ public class CarManager {
     private CacheContainerProvider provider;
 
     private BasicCache<String, Object> carCache;
+    
+    @Inject
+    private UserTransaction utx;
 
     private String carId;
     private Car car = new Car();
@@ -58,27 +61,24 @@ public class CarManager {
 
     public String addNewCar() {
         carCache = provider.getCacheContainer().getCache(CACHE_NAME);
-        List<String> carNumbers = getNumberPlateList(carCache);
-        carNumbers.add(car.getNumberPlate());
-        carCache.put(CAR_NUMBERS_KEY, carNumbers);
-        carCache.put(CarManager.encode(car.getNumberPlate()), car);
+        try {
+            utx.begin();
+            List<String> carNumbers = getNumberPlateList(carCache);
+            carNumbers.add(car.getNumberPlate());
+            carCache.put(CAR_NUMBERS_KEY, carNumbers);
+            carCache.put(CarManager.encode(car.getNumberPlate()), car);
+            utx.commit();
+        } catch (Exception e) {
+            if (utx != null) {
+                try {
+                    utx.rollback();
+                } catch (Exception e1) {
+                }
+            }
+        }
         return "home";
     }
-
-    public String addNewCarWithRollback() {
-        boolean throwInducedException = true;
-        carCache = provider.getCacheContainer().getCache(CACHE_NAME);
-        List<String> carNumbers = getNumberPlateList(carCache);
-        carNumbers.add(car.getNumberPlate());
-        // store the new list of car numbers and then throw an exception -> roll-back
-        // the car number list should not be stored in the cache
-        carCache.put(CAR_NUMBERS_KEY, carNumbers);
-        if (throwInducedException)
-            throw new RuntimeException("Induced exception");
-        carCache.put(CarManager.encode(car.getNumberPlate()), car);
-        return "home";
-    }
-
+    
     /**
      * Operate on a clone of car number list
      */
@@ -96,7 +96,18 @@ public class CarManager {
 
     public String showCarDetails(String numberPlate) {
         carCache = provider.getCacheContainer().getCache(CACHE_NAME);
-        this.car = (Car) carCache.get(encode(numberPlate));
+        try {
+            utx.begin();
+            this.car = (Car) carCache.get(encode(numberPlate));
+            utx.commit();
+        } catch (Exception e) {
+            if (utx != null) {
+                try {
+                    utx.rollback();
+                } catch (Exception e1) {
+                }
+            }
+        }
         return "showdetails";
     }
 
@@ -104,17 +115,39 @@ public class CarManager {
         List<String> result = null;
         // retrieve a cache
         carCache = provider.getCacheContainer().getCache(CACHE_NAME);
-        // retrieve a list of number plates from the cache
-        result = getNumberPlateList(carCache);
+        try {
+            utx.begin();
+            // retrieve a list of number plates from the cache
+            result = getNumberPlateList(carCache);
+            utx.commit();
+        } catch (Exception e) {
+            if (utx != null) {
+                try {
+                    utx.rollback();
+                } catch (Exception e1) {
+                }
+            }
+        }
         return result;
     }
 
     public String removeCar(String numberPlate) {
         carCache = provider.getCacheContainer().getCache(CACHE_NAME);
-        carCache.remove(encode(numberPlate));
-        List<String> carNumbers = getNumberPlateList(carCache);
-        carNumbers.remove(numberPlate);
-        carCache.put(CAR_NUMBERS_KEY, carNumbers);
+        try {
+            utx.begin();
+            carCache.remove(encode(numberPlate));
+            List<String> carNumbers = getNumberPlateList(carCache);
+            carNumbers.remove(numberPlate);
+            carCache.put(CAR_NUMBERS_KEY, carNumbers);
+            utx.commit();
+        } catch (Exception e) {
+            if (utx != null) {
+                try {
+                    utx.rollback();
+                } catch (Exception e1) {
+                }
+            }
+        }
         return null;
     }
 
