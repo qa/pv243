@@ -22,6 +22,9 @@
 
 package cz.muni.fi.pv243.lesson06.ejb.remote.util;
 
+/**
+ * @author Ondrej Chaloupka
+ */
 public class NodeNameGetter {
 
     private NodeNameGetter() {
@@ -31,6 +34,7 @@ public class NodeNameGetter {
      * Returns name of the node where this is called.
      */
     public static String getNodeName() {
-        // TODO: Get property "jboss.node.name"
+        String nodename = System.getProperty("jboss.node.name");
+        return nodename;
     }
 }

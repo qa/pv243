@@ -22,5 +22,22 @@
 
 package cz.muni.fi.pv243.lesson06.ejb.remote.stateless;
 
+import javax.ejb.Stateless;
+
+import org.jboss.ejb3.annotation.Clustered;
+
+import cz.muni.fi.pv243.lesson06.ejb.remote.util.NodeNameGetter;
+
+/**
+ * @author Ondrej Chaloupka
+ */
+@Clustered
+@Stateless
 public class StatelessBean implements StatelessRemote {
+
+	@Override
+	public String getNodeName() {
+		return NodeNameGetter.getNodeName();
+	}
+
 }
