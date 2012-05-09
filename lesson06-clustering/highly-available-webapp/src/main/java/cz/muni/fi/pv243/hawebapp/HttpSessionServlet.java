@@ -1,12 +1,14 @@
 package cz.muni.fi.pv243.hawebapp;
 
 import java.io.IOException;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @WebServlet(name = "HttpSessionServlet", urlPatterns = {"/session"})
 public class HttpSessionServlet extends HttpServlet {
@@ -18,14 +20,35 @@ public class HttpSessionServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        HttpSession session = req.getSession(true);
 
-        // TODO: Implement creating new session, storing SerialBean output the serial bean as plain text in response.
+        if (session.isNew()) {
+            log.log(Level.INFO, "New session created: {0}", session.getId());
+            session.setAttribute(KEY, new SerialBean());
+        }
 
-        // TODO: Optionally implement readonly scenario (only for the bored).
+        SerialBean bean = (SerialBean) session.getAttribute(KEY);
+
+        resp.setContentType("text/plain");
+
+        // Readonly?
+        if (req.getParameter(READONLY) != null) {
+            resp.getWriter().print(bean.getSerial());
+            return;
+        }
+
+        int serial = bean.getSerial();
+        bean.setSerial(serial + 1);
+
+        // Now store bean in the session
+        session.setAttribute(KEY, bean);
+
+        resp.getWriter().print(serial);
 
         // Invalidate?
         if (req.getParameter(HttpSessionServlet.INVALIDATE) != null) {
-            // TODO: Invalidate the session here.
+            log.log(Level.INFO, "Invalidating: {0}", session.getId());
+            session.invalidate();
         }
     }
 

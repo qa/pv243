@@ -1,11 +1,9 @@
 package cz.muni.fi.pv243.hawebapp;
 
+import java.io.Serializable;
 import java.util.Random;
 
-/**
- * TODO: Looks like there is a bug here :-/ Please fix.
- */
-public class SerialBean {
+public class SerialBean implements Serializable {
 
     private int serial;
     private byte[] cargo;

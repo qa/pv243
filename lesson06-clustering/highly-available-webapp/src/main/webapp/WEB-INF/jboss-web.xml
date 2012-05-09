@@ -4,8 +4,19 @@
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:schemaLocation="http://www.jboss.com/xml/ns/javaee http://www.jboss.org/j2ee/schema/jboss-web_6_0.xsd">
 
-    <!-- TODO: Setup replication-config with SET replication trigger and SESSION granularity -->
+    <replication-config>
+        <!-- The default value is SET_AND_NON_PRIMITIVE_GET, therefore the byte array which is carrying the data is considered
+             non-primitive and would cause replication even in read only scenario. -->
+        <replication-trigger>SET</replication-trigger>
 
-    <!-- TODO: Setup session passivation after at max 60, but at least 30 seconds. -->
+        <!-- Replicating entire session is the default. -->
+        <replication-granularity>SESSION</replication-granularity>
+    </replication-config>
+
+    <passivation-config>
+        <use-session-passivation>true</use-session-passivation>
+        <passivation-min-idle-time>30</passivation-min-idle-time>
+        <passivation-max-idle-time>60</passivation-max-idle-time>
+    </passivation-config>
 
 </jboss-web>
