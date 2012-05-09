@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jboss-web version="6.0"
+           xmlns="http://www.jboss.com/xml/ns/javaee"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://www.jboss.com/xml/ns/javaee http://www.jboss.org/j2ee/schema/jboss-web_6_0.xsd">
+
+    <!-- TODO: Setup replication-config with SET replication trigger and SESSION granularity -->
+
+    <!-- TODO: Setup session passivation after at max 60, but at least 30 seconds. -->
+
+</jboss-web>
