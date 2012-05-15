@@ -21,7 +21,14 @@
  */
 package cz.muni.fi.pv243.lesson7;
 
+import java.io.IOException;
 import java.net.InetAddress;
+import javax.security.auth.callback.Callback;
+import javax.security.auth.callback.CallbackHandler;
+import javax.security.auth.callback.NameCallback;
+import javax.security.auth.callback.PasswordCallback;
+import javax.security.auth.callback.UnsupportedCallbackException;
+import javax.security.sasl.RealmCallback;
 import org.jboss.as.controller.client.ModelControllerClient;
 import org.jboss.dmr.ModelNode;
 
@@ -34,17 +41,44 @@ public class RemoteConnectionApp {
 
     public static void main(String[] args) throws Exception {
 
-        
-        // TODO connect to remote AS7 instance
 
-        
-        // TODO execute any command
+        ModelControllerClient client = RemoteConnectionApp.createClient(
+                InetAddress.getByName("10.20.30.40"), 9999, "ferda", "mravenec".toCharArray(), "ManagementRealm");
 
 
-        // TODO print results
+        ModelNode op = new ModelNode();
+        op.get("operation").set("whoami");
 
-        
-        // TODO close client
+        ModelNode returnVal = client.execute(op);
 
+        System.out.println(returnVal.get("result").toString());
+
+        client.close();
+    }
+
+    static ModelControllerClient createClient(final InetAddress host, final int port,
+            final String username, final char[] password, final String securityRealmName) {
+
+        final CallbackHandler callbackHandler = new CallbackHandler() {
+
+            public void handle(Callback[] callbacks) throws IOException, UnsupportedCallbackException {
+                for (Callback current : callbacks) {
+                    if (current instanceof NameCallback) {
+                        NameCallback ncb = (NameCallback) current;
+                        ncb.setName(username);
+                    } else if (current instanceof PasswordCallback) {
+                        PasswordCallback pcb = (PasswordCallback) current;
+                        pcb.setPassword(password);
+                    } else if (current instanceof RealmCallback) {
+                        RealmCallback rcb = (RealmCallback) current;
+                        rcb.setText(rcb.getDefaultText());
+                    } else {
+                        throw new UnsupportedCallbackException(current);
+                    }
+                }
+            }
+        };
+
+        return ModelControllerClient.Factory.create(host, port, callbackHandler);
     }
 }
