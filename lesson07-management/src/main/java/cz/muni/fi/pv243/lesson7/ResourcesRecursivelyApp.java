@@ -26,7 +26,7 @@ import org.jboss.as.controller.client.ModelControllerClient;
 import org.jboss.dmr.ModelNode;
 
 /**
- * AS7 Java API example - get resources descriptions for web subsystem
+ * AS7 Java API example - get resources recursively including runtime data
  * 
  * @author Rostislav Svoboda
  */
@@ -39,12 +39,16 @@ public class ResourcesRecursivelyApp {
 
         ModelNode op = new ModelNode();
         
-        // TODO set command
+        op.get("operation").set("read-resource");
+
+        op.get("recursive").set(true);
+        op.get("include-runtime").set(true);
+        op.get("recursive-depth").set(10);
         
         ModelNode returnVal = client.execute(op);
 
-
-        // TODO print results
+        
+        System.out.println(returnVal.get("result").toString());
 
         client.close();
 
