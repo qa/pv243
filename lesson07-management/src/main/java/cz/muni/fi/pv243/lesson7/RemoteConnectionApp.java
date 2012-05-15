@@ -26,28 +26,25 @@ import org.jboss.as.controller.client.ModelControllerClient;
 import org.jboss.dmr.ModelNode;
 
 /**
- * AS7 Java API example - get release version
+ * AS7 Java API example - connect to remote AS7 instance
  * 
  * @author Rostislav Svoboda
  */
-public class ReleaseVersionApp {
+public class RemoteConnectionApp {
 
     public static void main(String[] args) throws Exception {
 
         
-        ModelControllerClient client = ModelControllerClient.Factory.create(InetAddress.getByName("localhost"), 9999);
+        // TODO connect to remote AS7 instance
 
-        ModelNode op = new ModelNode();
-        op.get("operation").set("read-attribute");
-
-        op.get("name").set("release-version");
-
-        ModelNode returnVal = client.execute(op);
+        
+        // TODO execute any command
 
 
-        System.out.println(returnVal.get("result").toString());
+        // TODO print results
 
-        client.close();
+        
+        // TODO close client
 
     }
 }

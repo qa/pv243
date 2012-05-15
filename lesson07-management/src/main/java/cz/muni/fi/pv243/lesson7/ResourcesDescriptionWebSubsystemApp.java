@@ -26,11 +26,11 @@ import org.jboss.as.controller.client.ModelControllerClient;
 import org.jboss.dmr.ModelNode;
 
 /**
- * AS7 Java API example - get release version
+ * AS7 Java API example - get resources recursively including runtime data
  * 
  * @author Rostislav Svoboda
  */
-public class ReleaseVersionApp {
+public class ResourcesDescriptionWebSubsystemApp {
 
     public static void main(String[] args) throws Exception {
 
@@ -38,14 +38,13 @@ public class ReleaseVersionApp {
         ModelControllerClient client = ModelControllerClient.Factory.create(InetAddress.getByName("localhost"), 9999);
 
         ModelNode op = new ModelNode();
-        op.get("operation").set("read-attribute");
-
-        op.get("name").set("release-version");
-
+        
+        // TODO set command
+        
         ModelNode returnVal = client.execute(op);
 
 
-        System.out.println(returnVal.get("result").toString());
+        // TODO print results
 
         client.close();
 
