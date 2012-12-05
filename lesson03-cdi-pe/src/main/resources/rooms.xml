@@ -1,0 +1,25 @@
+<rooms>
+	<room id="1" description="Room number 1" south="8" east="5" west="2" />
+	<room id="2" description="Room number 2" south="6" east="1" west="3" />
+	<room id="3" description="Room number 3" south="14" east="2" west="4" />
+	<room id="4" description="Room number 4" south="12" east="3" west="5" />
+	<room id="5" description="Room number 5" south="10" east="4" west="1" />
+	<room id="6" description="Room number 6" east="7" west="15" north="2"/>
+	<room id="7" description="Room number 7" south="17" east="8" west="6"/>
+	<room id="8" description="Room number 8" east="9" west="7" north="1"/>
+	<room id="9" description="Room number 9" south="18" east="10" west="8"/>
+	<room id="10" description="Room number 10" east="11" west="9" north="5"/>
+	<room id="11" description="Room number 11" south="19" east="12" west="10"/>
+	<!--  <room id="12" description="Room number 12" east="13" west="11" north="4"/> -->
+	<room id="12" description="You fell into a bottomless pit. Game over." smell="You feel a breeze."/>
+	<room id="13" description="Room number 13" south="20" east="14" west="12"/>
+	<room id="14" description="Room number 14" east="15" west="13" north="3"/>
+	<room id="15" description="Room number 15" south="16" east="6" west="14"/>
+	<room id="16" description="Room number 16" east="17" north="15" west="20" />
+	<room id="17" description="Room number 17" east="18" north="7" west="16" />
+	<room id="18" description="Room number 18" east="19" north="9" west="17" />
+	<!-- <room id="19" description="Room number 19" east="20" north="11" west="18" /> -->
+	<room id="19" description="You fell into a bottomless pit. Game over." smell="You feel a breeze."/>
+	<room id="20" description="Room number 20" east="16" north="13" west="19" />
+	
+</rooms>
