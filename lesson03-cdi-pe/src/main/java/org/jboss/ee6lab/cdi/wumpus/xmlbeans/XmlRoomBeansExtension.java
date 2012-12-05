@@ -2,6 +2,8 @@ package org.jboss.ee6lab.cdi.wumpus.xmlbeans;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.enterprise.event.Observes;
 import javax.enterprise.inject.spi.BeanManager;
@@ -14,6 +16,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.deltaspike.core.api.literal.ApplicationScopedLiteral;
+import org.apache.deltaspike.core.util.metadata.AnnotationInstanceProvider;
 import org.apache.deltaspike.core.util.metadata.builder.AnnotatedTypeBuilder;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -85,6 +88,18 @@ public class XmlRoomBeansExtension implements Extension {
 		if (westRoom != null && !westRoom.isEmpty()) {
 			fb.addToField(Room.class.getDeclaredField("west"), new InjectLiteral());
 			fb.addToField(Room.class.getDeclaredField("west"), new RoomName.RoomNameLiteral(westRoom));
+		}
+		
+		Map<String, String> values = new HashMap<String, String>();
+		values.put("value", description);
+		fb.addToField(Room.class.getDeclaredField("description"), AnnotationInstanceProvider.of(StringsEntry.class, values));
+		fb.addToField(Room.class.getDeclaredField("description"), new InjectLiteral());
+
+		if (!smell.isEmpty()) {
+			values = new HashMap<String, String>();
+			values.put("value", smell);
+			fb.addToField(Room.class.getDeclaredField("smell"), AnnotationInstanceProvider.of(StringsEntry.class, values));
+			fb.addToField(Room.class.getDeclaredField("smell"), new InjectLiteral());
 		}
 		
 		event.addAnnotatedType(fb.create());
