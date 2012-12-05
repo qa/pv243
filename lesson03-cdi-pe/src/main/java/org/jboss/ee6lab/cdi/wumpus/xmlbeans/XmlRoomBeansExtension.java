@@ -18,6 +18,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.apache.deltaspike.core.api.literal.ApplicationScopedLiteral;
 import org.apache.deltaspike.core.util.metadata.AnnotationInstanceProvider;
 import org.apache.deltaspike.core.util.metadata.builder.AnnotatedTypeBuilder;
+import org.jboss.ee6lab.cdi.wumpus.scope.GameScoped;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -26,6 +27,7 @@ import org.xml.sax.SAXException;
 public class XmlRoomBeansExtension implements Extension {
 	
 	private static class InjectLiteral extends AnnotationLiteral<Inject> implements Inject {} 
+	private static class GameScopedLiteral extends AnnotationLiteral<GameScoped> implements GameScoped {} 
 	
 	public void beforeBeanDiscovery(@Observes BeforeBeanDiscovery event, BeanManager beanManager) throws SecurityException, NoSuchFieldException {
 		
@@ -68,7 +70,7 @@ public class XmlRoomBeansExtension implements Extension {
 		fb.readFromType(Room.class);
 
 		fb.addToClass(new RoomName.RoomNameLiteral(roomName));
-		fb.addToClass(new ApplicationScopedLiteral());
+		fb.addToClass(new GameScopedLiteral());
 
 		if (northRoom != null && !northRoom.isEmpty()) {
 			fb.addToField(Room.class.getDeclaredField("north"), new InjectLiteral());

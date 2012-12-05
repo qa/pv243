@@ -28,10 +28,9 @@ public class GamesManager {
 	
 	Map<Integer, Game> games = new HashMap<Integer, Game>();
 	
-	/*
 	private GameContext getGameContext() {
 		return (GameContext)beanManager.getContext(GameScoped.class);
-	}*/
+	}
 	
 	public synchronized Game getGame(int gid) {
 		return games.get(gid);
@@ -45,7 +44,7 @@ public class GamesManager {
 	
 	public synchronized void removeGame(Game game) {	
 		games.remove(game.getId());
-		//getGameContext().deleteGame(game.getId());
+		getGameContext().deleteGame(game.getId());
 	}
 	
 	public synchronized Game createNewGame() {
@@ -53,7 +52,7 @@ public class GamesManager {
 		game.setId(++counter);
 		
 		games.put(game.getId(), game);
-		//getGameContext().createGame(game.getId());
+		getGameContext().createGame(game.getId());
 		
 		return game;
 	}
