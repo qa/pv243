@@ -30,9 +30,9 @@ public class CurrentPlayerManager implements Serializable {
 	private Player currentPlayer;
 	
 	@Inject
-	@RoomName("1")
+	// @RoomName("1")
 	// TODO: Inject a random room instead
-	// @Random
+	@Random
 	private Instance<Room> initialRoom;
 	
 	@Inject
