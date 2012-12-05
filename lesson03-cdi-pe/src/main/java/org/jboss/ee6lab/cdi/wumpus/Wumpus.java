@@ -49,7 +49,7 @@ public class Wumpus {
 	}
 
 	public void onMove(
-			@Observes PlayerEnteredRoomEvent event,
+			@Observes @ObserverOrder(5) PlayerEnteredRoomEvent event,
 			GameMessage gameMessage, @Current Room currentRoom,
 			@Current Player currentPlayer) {
 
