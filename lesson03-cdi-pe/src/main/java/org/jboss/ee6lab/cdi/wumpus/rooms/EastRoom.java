@@ -8,7 +8,7 @@ import org.jboss.ee6lab.cdi.wumpus.xmlbeans.Room;
 import org.jboss.ee6lab.cdi.wumpus.xmlbeans.RoomName;
 
 @RoomName("east")
-@SessionScoped
+@ApplicationScoped
 public class EastRoom extends Room {
 	
 	@Inject
