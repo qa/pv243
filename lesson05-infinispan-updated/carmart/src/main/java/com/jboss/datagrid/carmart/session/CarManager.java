@@ -25,6 +25,7 @@ import org.infinispan.api.BasicCache;
 import com.jboss.datagrid.carmart.model.Car;
 import javax.enterprise.inject.Model;
 import javax.inject.Inject;
+import javax.transaction.UserTransaction;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
@@ -48,6 +49,9 @@ public class CarManager {
     private CacheContainerProvider provider;
 
     private BasicCache<String, Object> carCache;
+    
+    @Inject
+    private UserTransaction utx;
 
     private String carId;
     private Car car = new Car();
@@ -57,27 +61,24 @@ public class CarManager {
 
     public String addNewCar() {
         carCache = provider.getCacheContainer().getCache(CACHE_NAME);
-        List<String> carNumbers = getNumberPlateList(carCache);
-        carNumbers.add(car.getNumberPlate());
-        carCache.put(CAR_NUMBERS_KEY, carNumbers);
-        carCache.put(CarManager.encode(car.getNumberPlate()), car);
+        try {
+            utx.begin();
+            List<String> carNumbers = getNumberPlateList(carCache);
+            carNumbers.add(car.getNumberPlate());
+            carCache.put(CAR_NUMBERS_KEY, carNumbers);
+            carCache.put(CarManager.encode(car.getNumberPlate()), car);
+            utx.commit();
+        } catch (Exception e) {
+            if (utx != null) {
+                try {
+                    utx.rollback();
+                } catch (Exception e1) {
+                }
+            }
+        }
         return "home";
     }
-
-    public String addNewCarWithRollback() {
-        boolean throwInducedException = true;
-        carCache = provider.getCacheContainer().getCache(CACHE_NAME);
-        List<String> carNumbers = getNumberPlateList(carCache);
-        carNumbers.add(car.getNumberPlate());
-        // store the new list of car numbers and then throw an exception -> roll-back
-        // the car number list should not be stored in the cache
-        carCache.put(CAR_NUMBERS_KEY, carNumbers);
-        if (throwInducedException)
-            throw new RuntimeException("Induced exception");
-        carCache.put(CarManager.encode(car.getNumberPlate()), car);
-        return "home";
-    }
-
+    
     /**
      * Operate on a clone of car number list
      */
@@ -110,10 +111,23 @@ public class CarManager {
 
     public String removeCar(String numberPlate) {
         carCache = provider.getCacheContainer().getCache(CACHE_NAME);
-        carCache.remove(encode(numberPlate));
-        List<String> carNumbers = getNumberPlateList(carCache);
-        carNumbers.remove(numberPlate);
-        carCache.put(CAR_NUMBERS_KEY, carNumbers);
+        try {
+            utx.begin();
+            carCache.remove(encode(numberPlate));
+            List<String> carNumbers = getNumberPlateList(carCache);
+            carNumbers.remove(numberPlate);
+            //if (true) throw new RuntimeException("Induced exception");
+            carCache.put(CAR_NUMBERS_KEY, carNumbers);
+            utx.commit();
+        } catch (Exception e) {
+            //System.out.println(e.getMessage());
+        	if (utx != null) {
+                try {
+                    utx.rollback();
+                } catch (Exception e1) {
+                }
+            }
+        }
         return null;
     }
 
