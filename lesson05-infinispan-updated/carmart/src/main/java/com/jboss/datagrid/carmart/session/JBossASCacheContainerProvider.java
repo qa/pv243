@@ -21,9 +21,11 @@
  */
 package com.jboss.datagrid.carmart.session;
 
+import java.util.Properties;
 import java.util.logging.Logger;
 import javax.annotation.PreDestroy;
 import javax.enterprise.context.ApplicationScoped;
+
 import org.infinispan.api.BasicCacheContainer;
 import org.infinispan.configuration.cache.CacheMode;
 import org.infinispan.configuration.cache.Configuration;
@@ -40,46 +42,64 @@ import org.infinispan.util.concurrent.IsolationLevel;
 import com.jboss.datagrid.carmart.session.CacheContainerProvider;
 
 /**
- * {@link CacheContainerProvider}'s implementation creating a DefaultCacheManager 
- * which is configured programmatically. Infinispan's libraries need to be bundled 
- * with the application - this is called "library" mode.
- * 
+ * {@link CacheContainerProvider}'s implementation creating a DefaultCacheManager which is configured programmatically.
+ * Infinispan's libraries need to be bundled with the application - this is called "library" mode.
+ *
  * @author Martin Gencur
- * 
  */
 @ApplicationScoped
 public class JBossASCacheContainerProvider implements CacheContainerProvider {
-    private Logger log = Logger.getLogger(this.getClass().getName());
+   private Logger log = Logger.getLogger(this.getClass().getName());
 
-    private BasicCacheContainer manager;
+   private BasicCacheContainer manager;
 
-    public BasicCacheContainer getCacheContainer() {
-        if (manager == null) {
+   public BasicCacheContainer getCacheContainer() {
+      if (manager == null) {
 
-            
-        	GlobalConfiguration glob = new GlobalConfigurationBuilder()
-       								.nonClusteredDefault().globalJmxStatistics().enable()
-       								.jmxDomain("org.infinispan.carmart")  //prevent collision with non-transactional carmart
-       								.build();
-        	Configuration loc = new ConfigurationBuilder()
-       	                			.jmxStatistics().enable()
-       	                			.clustering().cacheMode(CacheMode.LOCAL)
-       	                			.transaction().transactionMode(TransactionMode.TRANSACTIONAL).autoCommit(false)
-       	                			.lockingMode(LockingMode.OPTIMISTIC).transactionManagerLookup(new GenericTransactionManagerLookup())
-       	                			.locking().isolationLevel(IsolationLevel.REPEATABLE_READ)
-       	                			.eviction().maxEntries(4).strategy(EvictionStrategy.LRU)
-       	                			.loaders().passivation(true).addFileCacheStore().purgeOnStartup(true)
-       	                			.build();
-            
-            manager = new DefaultCacheManager(glob, loc, true); //true means start the cache manager immediately
-            log.info("=== Using DefaultCacheManager (library mode) ===");
-        }
-        return manager;
-    }
+         GlobalConfiguration glob = new GlobalConfigurationBuilder()
+               .nonClusteredDefault().globalJmxStatistics().enable()
+               .jmxDomain("org.infinispan.carmart")  //prevent collision with non-transactional carmart
+               .build();
 
-    @PreDestroy
-    public void cleanUp() {
-        manager.stop();
-        manager = null;
-    }
+         Configuration defaultConfig = new ConfigurationBuilder()
+               .transaction().transactionMode(TransactionMode.TRANSACTIONAL)
+               .build();  //default config
+
+         Configuration carCacheConfig = new ConfigurationBuilder()
+               .jmxStatistics()
+                  .enable()
+               .clustering()
+                  .cacheMode(CacheMode.LOCAL)
+               .transaction()
+                  .transactionMode(TransactionMode.TRANSACTIONAL)
+                  .autoCommit(false)
+                  .lockingMode(LockingMode.OPTIMISTIC)
+               .transactionManagerLookup(new GenericTransactionManagerLookup())
+               .locking()
+                  .isolationLevel(IsolationLevel.REPEATABLE_READ)
+               .eviction()
+                  .maxEntries(4)
+                  .strategy(EvictionStrategy.LRU)
+               .loaders()
+                  .passivation(true)
+                  .addFileCacheStore()
+                  .purgeOnStartup(true)
+               .indexing()
+                  .enable()
+                  .addProperty("default.directory_provider", "ram")
+               .build();
+
+         manager = new DefaultCacheManager(glob, defaultConfig);
+         ((DefaultCacheManager) manager).defineConfiguration(CarManager.CAR_CACHE_NAME, carCacheConfig);
+         manager.start();
+         log.info("=== Using DefaultCacheManager (library mode) ===");
+      }
+      return manager;
+   }
+
+   @PreDestroy
+   public void cleanUp() {
+      manager.stop();
+      manager = null;
+   }
 }

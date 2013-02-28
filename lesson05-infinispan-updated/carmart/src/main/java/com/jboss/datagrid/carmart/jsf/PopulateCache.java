@@ -64,7 +64,8 @@ public class PopulateCache implements SystemEventListener {
     }
 
     public void startup() {
-        BasicCache<String, Object> cars = provider.getCacheContainer().getCache(CarManager.CACHE_NAME);
+        BasicCache<String, Object> cars = provider.getCacheContainer().getCache(CarManager.CAR_CACHE_NAME);
+        BasicCache<String, Object> carList = provider.getCacheContainer().getCache(CarManager.CAR_LIST_CACHE_NAME);
         List<String> carNumbers = new ArrayList<String>();
         
         utx = getUserTransactionFromJNDI();
@@ -86,8 +87,17 @@ public class PopulateCache implements SystemEventListener {
             c = new Car("VW Golf", 1.6, CarType.HATCHBACK, "yellow", "2B2 4946", Country.GERMANY);
             carNumbers.add(c.getNumberPlate());
             cars.put(CarManager.encode(c.getNumberPlate()), c);
+            c = new Car("VW Passat", 2.0, CarType.COMBI, "black", "7T7 7777", Country.GERMANY);
+            carNumbers.add(c.getNumberPlate());
+            cars.put(CarManager.encode(c.getNumberPlate()), c);
+            c = new Car("Renault Clio", 1.8, CarType.HATCHBACK, "blue", "8E6 8456", Country.CZECH_REPUBLIC);
+            carNumbers.add(c.getNumberPlate());
+            cars.put(CarManager.encode(c.getNumberPlate()), c);
+            c = new Car("Renault Megane", 2.0, CarType.SEDAN, "red", "6A6 6666", Country.CZECH_REPUBLIC);
+            carNumbers.add(c.getNumberPlate());
+            cars.put(CarManager.encode(c.getNumberPlate()), c);
             // insert a list of cars' number plates
-            cars.put(CarManager.CAR_NUMBERS_KEY, carNumbers);
+            carList.put(CarManager.CAR_NUMBERS_KEY, carNumbers);
             utx.commit();
             log.info("Successfully imported data!");
         } catch (Exception e) {

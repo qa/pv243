@@ -21,6 +21,13 @@
  */
 package com.jboss.datagrid.carmart.model;
 
+import org.hibernate.search.annotations.DocumentId;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.FieldBridge;
+import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.ProvidedId;
+import org.hibernate.search.bridge.builtin.StringBridge;
+
 import java.io.Serializable;
 
 /**
@@ -29,6 +36,7 @@ import java.io.Serializable;
  * @author Martin Gencur
  * 
  */
+@Indexed(index="CarIndex")
 public class Car implements Serializable {
 
     private static final long serialVersionUID = 188164481825309731L;
@@ -38,7 +46,7 @@ public class Car implements Serializable {
     }
 
     public enum Country {
-        CZECH_REPUBLIC, USA, GERMANY
+        Unused, CZECH_REPUBLIC, USA, GERMANY
     }
 
     public Car() {
@@ -53,19 +61,30 @@ public class Car implements Serializable {
         this.country = country;
     }
 
+    @Field
     private String brand;
+
+    @Field
     private double displacement;
+
+    @Field
     private CarType type;
+
+    @Field
     private String color;
-    private String numberPlate;
+
+    @Field
     private Country country;
+
+    @Field
+    private String numberPlate;
 
     public String getBrand() {
         return brand;
     }
 
     public void setBrand(String brand) {
-        this.brand = brand;
+        this.brand = brand.trim();
     }
 
     public CarType getType() {
@@ -81,7 +100,7 @@ public class Car implements Serializable {
     }
 
     public void setNumberPlate(String numberPlate) {
-        this.numberPlate = numberPlate;
+        this.numberPlate = numberPlate.trim();
     }
 
     public String getColor() {
@@ -89,7 +108,7 @@ public class Car implements Serializable {
     }
 
     public void setColor(String color) {
-        this.color = color;
+        this.color = color.trim();
     }
 
     public double getDisplacement() {
@@ -106,5 +125,33 @@ public class Car implements Serializable {
 
     public Country getCountry() {
         return country;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+       if (this == o) return true;
+       if (o == null || getClass() != o.getClass()) return false;
+       Car car = (Car) o;
+       if (Double.compare(car.displacement, displacement) != 0) return false;
+       if (brand != null ? !brand.equals(car.brand) : car.brand != null) return false;
+       if (color != null ? !color.equals(car.color) : car.color != null) return false;
+       if (country != car.country) return false;
+       if (numberPlate != null ? !numberPlate.equals(car.numberPlate) : car.numberPlate != null) return false;
+       if (type != car.type) return false;
+       return true;
+    }
+
+    @Override
+    public int hashCode() {
+       int result;
+       long temp;
+       result = brand != null ? brand.hashCode() : 0;
+       temp = displacement != +0.0d ? Double.doubleToLongBits(displacement) : 0L;
+       result = 31 * result + (int) (temp ^ (temp >>> 32));
+       result = 31 * result + (type != null ? type.hashCode() : 0);
+       result = 31 * result + (color != null ? color.hashCode() : 0);
+       result = 31 * result + (country != null ? country.hashCode() : 0);
+       result = 31 * result + (numberPlate != null ? numberPlate.hashCode() : 0);
+       return result;
     }
 }

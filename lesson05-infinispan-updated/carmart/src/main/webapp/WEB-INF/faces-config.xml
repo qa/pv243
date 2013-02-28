@@ -32,4 +32,12 @@
       </navigation-case>
    </navigation-rule>
 
+   <navigation-rule>
+      <from-view-id>/searchcar.xhtml</from-view-id>
+      <navigation-case>
+         <from-outcome>searchresults</from-outcome>
+         <to-view-id>/searchresults.xhtml</to-view-id>
+      </navigation-case>
+   </navigation-rule>
+
 </faces-config> 

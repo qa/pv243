@@ -35,7 +35,6 @@ import org.infinispan.notifications.cachelistener.annotation.CacheEntryVisited;
 import org.infinispan.notifications.cachelistener.event.CacheEntryCreatedEvent;
 import org.infinispan.notifications.cachelistener.event.CacheEntryRemovedEvent;
 import org.infinispan.notifications.cachelistener.event.CacheEntryVisitedEvent;
-import com.jboss.datagrid.carmart.session.StatisticsProvider;
 
 @Named("stats")
 @ApplicationScoped //use application scope so that we can get overall statistics
@@ -51,7 +50,7 @@ public class LocalStatisticsProvider implements StatisticsProvider {
 
     @PostConstruct
     public void getStatsObject() {
-        ((DefaultCacheManager) provider.getCacheContainer()).getCache(CarManager.CACHE_NAME).addListener(this);
+        ((DefaultCacheManager) provider.getCacheContainer()).getCache(CarManager.CAR_CACHE_NAME).addListener(this);
     }
     
     @CacheEntryCreated

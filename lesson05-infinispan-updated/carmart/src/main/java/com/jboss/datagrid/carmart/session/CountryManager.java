@@ -26,6 +26,8 @@ import javax.inject.Named;
 
 import com.jboss.datagrid.carmart.model.Car.Country;
 
+import java.util.Arrays;
+
 /**
  * Produces an array of supported countries
  * 
@@ -36,6 +38,17 @@ public class CountryManager {
     @Produces
     @Named
     public Country[] getCountries() {
-        return Country.values();
+       Country[] countries = new Country[Country.values().length - 1];
+       //do not include first item (Unused)
+       for (int i = 1; i!= Country.values().length; i++) {
+           countries[i-1] = Country.values()[i];
+       }
+       return countries;
+    }
+
+    @Produces
+    @Named
+    public Country[] getCountriesForSearch() {
+       return Country.values();
     }
 }
