@@ -7,17 +7,17 @@
 	<ui:define name="content">
 		<h1>Factorial</h1>
 		<h:form>
-			<h:inputText id="number" value="" required="true">
+			<h:inputText id="number" value="#{factorial.input}" required="true">
 				<f:validateLongRange minimum="0" />
 			</h:inputText>
-			<h:commandButton value="Compute" action="" />
-			<h:commandButton value="Reset" action="" immediate="true" />
+			<h:commandButton value="Compute" action="#{factorial.compute()}" />
+			<h:commandButton value="Reset" action="#{factorial.reset()}" immediate="true" />
 			<br />
 			<br />
 			<h:messages />
-			<h:panelGrid rendered="">
+			<h:panelGrid rendered="#{factorial.result != null}">
 				The byte representation of #{number}! is:
-				<h:outputText value="">
+				<h:outputText value="#{factorial.result}">
 					<f:converter converterId="bigIntegerByteArray" />
 				</h:outputText>
 			</h:panelGrid>
