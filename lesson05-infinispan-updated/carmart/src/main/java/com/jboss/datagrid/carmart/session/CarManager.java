@@ -36,6 +36,12 @@ import org.infinispan.query.Search;
 import org.infinispan.query.SearchManager;
 import java.util.ArrayList;
 import org.infinispan.Cache;
+import org.apache.lucene.search.TermQuery;
+import org.apache.lucene.index.Term;
+import org.apache.lucene.search.BooleanClause;
+import org.apache.lucene.search.BooleanQuery;
+import org.apache.lucene.search.Query;
+import org.hibernate.search.query.dsl.QueryBuilder;
 
 /**
  * Adds, retrieves, removes new cars from the cache. Also returns a list of cars stored in the cache.
@@ -186,18 +192,42 @@ public class CarManager {
        carCache = provider.getCacheContainer().getCache(CAR_CACHE_NAME);
        SearchManager sm = Search.getSearchManager((Cache) carCache);
 
+//       //match any of the parameters----------------------------------------------------------------
+//       QueryBuilder queryBuilder = sm.buildQueryBuilderForClass(Car.class).get();
+//       Query q1 = queryBuilder
+//                     .bool()
+//                        .should(queryBuilder.keyword().onFields("brand")
+//                                .matching(car.getBrand().isEmpty() ? "none" : car.getBrand())
+//                                .createQuery())
+//                        .should(queryBuilder.keyword().onFields("color")
+//                                .matching(car.getColor().isEmpty() ? "none" : car.getColor())
+//                                .createQuery())
+//                        .should(queryBuilder.keyword().onFields("country")
+//                                .matching(car.getCountry())
+//                                .createQuery())
+//                     .createQuery();
+//       System.out.println("Lucene Query: " + q1.toString() ); //printing out raw Lucene query
 
 
+       //match all the parameters----------------------------------------------------------------------
+       BooleanQuery q2 = new BooleanQuery();
 
-       //TODO: create the query using either QueryBuilder from Hibernate Search or BooleanQuery from Lucene
-
-
-
-
-       System.out.println("Lucene Query: " + q.toString() ); //printing out raw Lucene query
+       if (!car.getBrand().isEmpty()) {
+          Query query = new TermQuery(new Term("brand", car.getBrand().toLowerCase()));
+          q2.add(query, BooleanClause.Occur.MUST);
+       }
+       if (!car.getColor().isEmpty()) {
+          Query query = new TermQuery(new Term("color", car.getColor().toLowerCase()));
+          q2.add(query, BooleanClause.Occur.MUST);
+       }
+       if (!car.getCountry().equals(Car.Country.Unused)) {
+          Query query = new TermQuery(new Term("country", car.getCountry().toString().toLowerCase()));
+          q2.add(query, BooleanClause.Occur.MUST);
+       }
+       System.out.println("Lucene Query: " + q2.toString() ); //printing out raw Lucene query
 
        //create a cache query based on the Lucene query
-       CacheQuery cq = sm.getQuery(q, Car.class);
+       CacheQuery cq = sm.getQuery(q2, Car.class);
        searchResults = new ArrayList<Car>();
        //invoke the cache query
        for (Object o : cq.list()) {
