@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import cz.muni.fi.pv243.lesson02.factorial.Factorial;
+import cz.muni.fi.pv243.lesson02.factorial.Parallel;
 
 @Named("factorial")
 @RequestScoped
@@ -16,6 +17,7 @@ public class FactorialBackingBean {
     private BigInteger result;
 
     @Inject
+    @Parallel
     private Factorial factorial;
 
     public void compute() {

@@ -20,12 +20,14 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import cz.muni.fi.pv243.lesson02.factorial.Factorial;
+import cz.muni.fi.pv243.lesson02.factorial.Parallel;
 import cz.muni.fi.pv243.lesson02.factorial.util.FactorialComputationFinished;
 
 @RunWith(Arquillian.class)
 public class FactorialTest {
 
     @Inject
+    @Parallel
     private Factorial factorial;
 
     @Deployment
