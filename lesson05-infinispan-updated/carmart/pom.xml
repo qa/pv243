@@ -15,6 +15,7 @@
         <jboss-as-management-host>localhost</jboss-as-management-host>
         <jbossas.version>7.5.Final</jbossas.version>
         <infinispan.version>6.0.0.CR1</infinispan.version>
+        <version.hibernate.search>4.4.0.Beta1</version.hibernate.search>
     </properties>
 
     <dependencies>
@@ -47,6 +48,26 @@
             <artifactId>jsf-api</artifactId>
             <version>${jsf.version}</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-search-engine</artifactId>
+            <version>${version.hibernate.search}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-search-analyzers</artifactId>
+            <version>${version.hibernate.search}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-search-infinispan</artifactId>
+            <version>${version.hibernate.search}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.infinispan</groupId>
+            <artifactId>infinispan-query</artifactId>
+            <version>${infinispan.version}</version>
         </dependency>
     </dependencies>
 
