@@ -30,9 +30,7 @@ package com.jboss.datagrid.carmart.session;
  */
 public interface StatisticsProvider {
 
-    public void getStatsObject();
-
-    public String getVisits();
+    public String getModifications();
 
     public String getCreations();
 

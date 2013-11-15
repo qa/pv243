@@ -18,11 +18,9 @@
 
 <div id="header">
   <div class="apptitle">Infinispan CarMart</div>
-  <div class="menuitem"><h:commandLink action="#{carManager.clearSearchResults}" value="Home"/></div>
+  <div class="menuitem"><a href="home.jsf">Home</a></div>
   <div class="divider"></div>
   <div class="menuitem"><a href="addcar.jsf">New car</a></div>
-  <div class="divider"></div>
-  <div class="menuitem"><a href="searchcar.jsf">Search</a></div>
 </div>
 
 <div id="topseparator"></div>
@@ -38,8 +36,8 @@
   <div id="statistics">
      <h:outputText value="Statistics around operations with cache entries" styleClass="statsTitle"/>
      <h:panelGrid columns="2" styleClass="innerContent">
-        <h:outputLabel value="Visits:" /><h:outputText value="#{stats.visits}" />
-        <h:outputLabel value="Creations:"/><h:outputText value="#{stats.creations}" />
+        <h:outputLabel value="Modifications:" /><h:outputText value="#{stats.modifications}" />
+        <h:outputLabel value="Creations:" /><h:outputText value="#{stats.creations}" />
         <h:outputLabel value="Removals:" /><h:outputText value="#{stats.removals}" />
      </h:panelGrid>
   </div>

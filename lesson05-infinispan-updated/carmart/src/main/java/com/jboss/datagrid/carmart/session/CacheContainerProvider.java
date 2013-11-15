@@ -21,7 +21,7 @@
  */
 package com.jboss.datagrid.carmart.session;
 
-import org.infinispan.api.BasicCacheContainer;
+import org.infinispan.commons.api.BasicCacheContainer;
 
 /**
  * 
