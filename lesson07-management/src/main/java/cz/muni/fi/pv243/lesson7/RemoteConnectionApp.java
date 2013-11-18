@@ -33,9 +33,10 @@ import org.jboss.as.controller.client.ModelControllerClient;
 import org.jboss.dmr.ModelNode;
 
 /**
- * AS7 Java API example - connect to remote AS7 instance
+ * WildFly8 Java API example - connect to remote WildFly8 instance
  * 
  * @author Rostislav Svoboda
+ * @author Jitka Kozana
  */
 public class RemoteConnectionApp {
 
@@ -43,7 +44,7 @@ public class RemoteConnectionApp {
 
 
         ModelControllerClient client = RemoteConnectionApp.createClient(
-                InetAddress.getByName("10.20.30.40"), 9999, "ferda", "mravenec".toCharArray(), "ManagementRealm");
+                InetAddress.getByName("127.0.0.1"), 9999, "ferda", "mravenec1*".toCharArray(), "ManagementRealm");
 
 
         ModelNode op = new ModelNode();

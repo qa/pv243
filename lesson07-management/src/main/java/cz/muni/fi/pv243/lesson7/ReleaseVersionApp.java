@@ -26,7 +26,7 @@ import org.jboss.as.controller.client.ModelControllerClient;
 import org.jboss.dmr.ModelNode;
 
 /**
- * AS7 Java API example - get release version
+ * WildFly8 Java API example - get release version
  * 
  * @author Rostislav Svoboda
  */

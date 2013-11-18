@@ -12,14 +12,14 @@
     
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <jbossas.version>7.1.1.Final</jbossas.version>
+        <wildfly.version>8.0.0.Beta1</wildfly.version>
     </properties>
 
     <dependencies>
         <dependency>
-            <groupId>org.jboss.as</groupId>
-            <artifactId>jboss-as-controller-client</artifactId>
-            <version>${jbossas.version}</version>
+            <groupId>org.wildfly</groupId>
+            <artifactId>wildfly-controller-client</artifactId>
+            <version>${wildfly.version}</version>
         </dependency>
     </dependencies>
 

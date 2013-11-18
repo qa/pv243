@@ -26,11 +26,13 @@ import org.jboss.as.controller.client.ModelControllerClient;
 import org.jboss.dmr.ModelNode;
 
 /**
- * AS7 Java API example - get resources description for web subsystem
+ * WildFly8 Java API example - get resources description for Remoting subsystem
  * 
  * @author Rostislav Svoboda
+ * @author Jitka Kozana
+ *
  */
-public class ResourcesDescriptionWebSubsystemApp {
+public class ResourcesDescriptionRemotingSubsystemApp {
 
     public static void main(String[] args) throws Exception {
 
@@ -42,12 +44,11 @@ public class ResourcesDescriptionWebSubsystemApp {
         op.get("operation").set("read-resource-description");
 
         ModelNode address = op.get("address");
-        address.add("profile", "ha");
-        address.add("subsystem", "web");
-        address.add("connector", "http");
+
+        address.add("subsystem", "remoting");
+        address.add("http-connector", "http-remoting-connector");
 
         op.get("recursive").set(true);
-        op.get("operations").set(true);
 
         ModelNode returnVal = client.execute(op);
 
