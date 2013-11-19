@@ -38,14 +38,13 @@ public class ReleaseVersionApp {
         ModelControllerClient client = ModelControllerClient.Factory.create(InetAddress.getByName("localhost"), 9999);
 
         ModelNode op = new ModelNode();
-        op.get("operation").set("read-attribute");
 
-        op.get("name").set("release-version");
+        // set operation
 
         ModelNode returnVal = client.execute(op);
 
 
-        System.out.println(returnVal.get("result").toString());
+        // display results
 
         client.close();
 
