@@ -39,16 +39,11 @@ public class ResourcesRecursivelyApp {
 
         ModelNode op = new ModelNode();
         
-        op.get("operation").set("read-resource");
-
-        op.get("recursive").set(true);
-        op.get("include-runtime").set(true);
-        op.get("recursive-depth").set(10);
+        // set command
         
         ModelNode returnVal = client.execute(op);
 
-        
-        System.out.println(returnVal.get("result").toString());
+        // display results
 
         client.close();
 
