@@ -41,19 +41,11 @@ public class ResourcesDescriptionRemotingSubsystemApp {
 
         ModelNode op = new ModelNode();
         
-        op.get("operation").set("read-resource-description");
-
-        ModelNode address = op.get("address");
-
-        address.add("subsystem", "remoting");
-        address.add("http-connector", "http-remoting-connector");
-
-        op.get("recursive").set(true);
+        //set command
 
         ModelNode returnVal = client.execute(op);
 
-
-        System.out.println(returnVal.get("result").toString());
+        // display results
 
         client.close();
 
