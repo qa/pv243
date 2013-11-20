@@ -12,8 +12,6 @@ var Rest = {
             callback.call(this);
         }; 
         xhr.send(JSON.stringify(message));
-        
-        View.updateMessages([message]);
     },
 
     retrieveMessages : function( callback ) {

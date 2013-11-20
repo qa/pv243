@@ -7,7 +7,7 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       template="/templates/main.xhtml">
       
-    <ui:param name="onload" value="View.restoreName(); Rest.retrieveMessages(View.updateMessages);" />
+    <ui:param name="onload" value="Socket.subscribe(); View.restoreName(); Rest.retrieveMessages(View.updateMessages);" />
       
     <div class="panel panel-default">
         <div class="panel-heading">Post Message</div>

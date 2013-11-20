@@ -2,6 +2,7 @@ package cz.muni.fi.pv243.rest;
 
 import java.util.List;
 
+import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -19,6 +20,9 @@ public class MessagesEndpoint {
     @Inject
     private MessageStore messages;
 
+    @Inject
+    private Event<Message> messageEvent;
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<Message> getMessages() {
@@ -29,5 +33,6 @@ public class MessagesEndpoint {
     @Consumes(MediaType.APPLICATION_JSON)
     public void addMessage(Message message) {
         messages.addMessage(message);
+        messageEvent.fire(message);
     }
 }

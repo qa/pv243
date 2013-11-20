@@ -1,5 +1,6 @@
 package cz.muni.fi.pv243.websocket;
 
+import javax.json.Json;
 import javax.websocket.EncodeException;
 import javax.websocket.Encoder;
 import javax.websocket.EndpointConfig;
@@ -10,7 +11,10 @@ public class MessageEncoder implements Encoder.Text<Message> {
 
     @Override
     public String encode(Message message) throws EncodeException {
-        throw new UnsupportedOperationException();
+        return Json.createObjectBuilder()
+                .add("name", message.getName())
+                .add("text", message.getText())
+                .build().toString();
     }
 
     @Override
