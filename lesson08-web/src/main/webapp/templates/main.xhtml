@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<!-- <ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"> -->
+<html>
+      
+<head>
+
+<title>Java EE 7 on the Web!</title>
+
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css" />
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap-theme.min.css" />
+
+</head>
+
+<body>
+    
+    <div class="container">
+
+    <div class="page-header">
+      <h1>Java EE 7 on the Web! <small> JAX-RS 2.0, WebSockets, JSON, JSF 2.2</small></h1>
+    </div>
+    
+    <div class="panel panel-default">
+        <div class="panel-heading">Post Message</div>
+        <div class="panel-body">
+            <form>
+                
+                <div class="form-group">
+                    <label for="name" class="control-label">Name:</label>
+                    <input type="text" id="name" name="name" class="form-control" required="required" />
+                </div>
+                
+                <div class="form-group">
+                    <label for="message" class="control-label">Message:</label>
+                    <input type="text" id="message" name="message" class="form-control" required="required" />
+                </div>
+                
+                <div class="form-group">
+                    <input type="submit" class="btn btn-primary" value="Add" />
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <div class="well">
+        <dl id="chat" class="dl-horizontal">
+        </dl>
+    </div>
+        
+    </div>
+</body>
+
+</html>
+<!-- </ui:composition> -->
