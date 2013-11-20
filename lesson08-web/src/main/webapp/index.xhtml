@@ -2,21 +2,46 @@
 <html>
 
 <body>
-      
-        <form>
 
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name" required="required" />
-        
-            <label for="message" class="control-label">Message:</label>
-            <input type="text" id="message" name="message" required="required" />
-        
-            <input type="submit" value="Add" />
-            
-        </form>
-           
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      template="/templates/main.xhtml">
+      
+    <ui:param name="onload" value="View.restoreName();" />
+      
+    <div class="panel panel-default">
+        <div class="panel-heading">Post Message</div>
+        <div class="panel-body">
+            <form>
+                
+                <div class="form-group">
+                    <label for="name" class="control-label">Name:</label>
+                    <input type="text" id="name" name="name" class="form-control" required="required"
+                           onchange="View.storeName()" />
+                </div>
+                
+                <div class="form-group">
+                    <label for="message" class="control-label">Message:</label>
+                    <input type="text" id="message" name="message" class="form-control" required="required" />
+                </div>
+                
+                <div class="form-group">
+                    <input type="submit" class="btn btn-primary" value="Add" />
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <div class="well">
         <dl id="chat" class="dl-horizontal">
         </dl>
+    </div>
+    
+    <script type="text/javascript" src="resources/js/rest.js"></script>
+    <script type="text/javascript" src="resources/js/socket.js"></script>
+    <script type="text/javascript" src="resources/js/view.js"></script>
+    
+</ui:composition>
 
 </body>
 
