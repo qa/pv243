@@ -7,12 +7,13 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       template="/templates/main.xhtml">
       
-    <ui:param name="onload" value="View.restoreName();" />
+    <ui:param name="onload" value="View.restoreName(); Rest.retrieveMessages(View.updateMessages);" />
       
     <div class="panel panel-default">
         <div class="panel-heading">Post Message</div>
         <div class="panel-body">
-            <form>
+            <form onsubmit="View.sendMessageForm(this); return false;"
+                  onload="this.message.value = ''; this.message.focus()">
                 
                 <div class="form-group">
                     <label for="name" class="control-label">Name:</label>
