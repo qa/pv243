@@ -10,6 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+/**
+ * @see http://docs.oracle.com/javaee/7/api/javax/servlet/http/HttpServlet.html
+ */
 @WebServlet(name = "HttpSessionServlet", urlPatterns = {"/session"})
 public class HttpSessionServlet extends HttpServlet {
 
