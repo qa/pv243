@@ -3,3 +3,11 @@
 #.settings
 target
 bin
+
+# Intellij
+.idea/
+*.iml
+*.iws
+
+# Mac
+.DS_Store
