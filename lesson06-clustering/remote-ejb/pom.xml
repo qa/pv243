@@ -1,50 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-	<groupId>cz.muni.fi.pv243.lesson06</groupId>
-	<artifactId>lesson6</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
-	<packaging>pom</packaging>
-	<name>PV243 Lesson 06 - Clustering - Remote EJB</name>
+    <groupId>cz.muni.fi.pv243.lesson06</groupId>
+    <artifactId>lesson6</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>PV243 Lesson 06 - Clustering - Remote EJB</name>
 
-	<properties>
-		<project.version>1.0.0-SNAPSHOT</project.version>
-		<jboss-as-management-host-1>localhost</jboss-as-management-host-1>
-		<jboss-as-management-host-2>localhost</jboss-as-management-host-2>
-		<jboss-as-management-port>9999</jboss-as-management-port>
-		<jbossas.version>7.1.1.Final</jbossas.version>
-		<jboss.javaee.version>3.0.0.Final</jboss.javaee.version>
-		<maven.compiler.plugin.version>2.3.1</maven.compiler.plugin.version>
-		<maven.ejb.plugin.version>2.3</maven.ejb.plugin.version>
-		<maven.exec.plugin.version>1.2.1</maven.exec.plugin.version>
+    <properties>
+        <project.version>1.0.0-SNAPSHOT</project.version>
+        <jboss-as-management-host-1>localhost</jboss-as-management-host-1>
+        <jboss-as-management-host-2>localhost</jboss-as-management-host-2>
+        <jboss-as-management-port>9999</jboss-as-management-port>
+        <!-- The ejb invocations use port 8080 -->
+        <jbossas.version>8.0.0.Beta1</jbossas.version>
+        <jboss.javaee.version>3.0.0.Final</jboss.javaee.version>
+        <maven.compiler.plugin.version>2.3.1</maven.compiler.plugin.version>
+        <maven.ejb.plugin.version>2.3</maven.ejb.plugin.version>
+        <maven.exec.plugin.version>1.2.1</maven.exec.plugin.version>
 
-		<!-- Explicitly declaring the source encoding eliminates the following 
-			message: -->
-		<!-- [WARNING] Using platform encoding (UTF-8 actually) to copy filtered 
-			resources, i.e. build is platform dependent! -->
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	</properties>
+        <!-- Explicitly declaring the source encoding eliminates the following message: -->
+        <!-- [WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent! -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
-	<modules>
-		<module>server-side</module>
-		<module>client-side</module>
-	</modules>
+    <modules>
+        <module>server-side</module>
+        <module>client-side</module>
+    </modules>
 
-	<build>
-		<plugins>
-			<!-- The JBoss AS plugin deploys your apps to a local JBoss AS container -->
-			<plugin>
-				<groupId>org.jboss.as.plugins</groupId>
-				<artifactId>jboss-as-maven-plugin</artifactId>
-				<version>${jbossas.version}</version>
-				<inherited>true</inherited>
-				<configuration>
-					<skip>true</skip>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
+    <build>
+        <plugins>
+            <!-- The WildFly plugin deploys your apps to a local container -->
+            <plugin>
+                <groupId>org.wildfly.plugins</groupId>
+                <artifactId>wildfly-maven-plugin</artifactId>
+                <version>1.0.0.Beta1</version>
+                <inherited>true</inherited>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
