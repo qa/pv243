@@ -17,16 +17,12 @@ public class Chat extends ReceiverAdapter {
 
     @Override
     public void viewAccepted(View new_view) {
-        System.out.println("New view: " + new_view);
+        // TODO: Someone joined the chat.
     }
 
     @Override
     public void receive(Message msg) {
-        String line = "" + msg.getObject();
-        System.out.println(line);
-        synchronized (state) {
-            state.add(line);
-        }
+        // TODO: New chat message received.
     }
 
     private void start() throws Exception {
@@ -38,20 +34,15 @@ public class Chat extends ReceiverAdapter {
         channel.close();
     }
 
+    /**
+     * This method reads input from user and sends over to other chat clients over the channel.
+     */
     private void eventLoop() {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
         for (;;) {
-            try {
-                System.out.flush();
-                String line = in.readLine().toLowerCase();
-                if (line.startsWith("quit") || line.startsWith("exit")) {
-                    break;
-                }
-                line = "[" + user_name + "] " + line;
-                Message msg = new Message(null, null, line);
-                channel.send(msg);
-            } catch (Exception e) {
-            }
+            // TODO: Read text ftom user
+            // TODO: handle quit command
+            // TODO: Send message
         }
     }
 
