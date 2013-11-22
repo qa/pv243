@@ -3,7 +3,6 @@ package cz.muni.fi.pv243.hawebapp;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import java.util.Random;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpSessionActivationListener;
@@ -11,8 +10,11 @@ import javax.servlet.http.HttpSessionEvent;
 
 import org.wildfly.clustering.annotation.Immutable;
 
+/**
+ * TODO: Looks like there is a bug here somewhere :-/ Please fix.
+ */
 @Immutable
-public class SerialBean implements Serializable, HttpSessionActivationListener {
+public class SerialBean implements HttpSessionActivationListener {
 
     private int serial;
     private byte[] cargo;
@@ -54,8 +56,11 @@ public class SerialBean implements Serializable, HttpSessionActivationListener {
      * @throws IOException
      */
     private void writeObject(ObjectOutputStream stream) throws IOException {
-        stream.defaultWriteObject();
-        logger.info("Writing session.");
+
+        // TODO: serialize the object (use just the default method?)
+
+        // TODO: log we are writing the session
+
     }
 
     /**
@@ -65,9 +70,11 @@ public class SerialBean implements Serializable, HttpSessionActivationListener {
      * @throws ClassNotFoundException
      */
     private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
-        stream.defaultReadObject();
-        logger = Logger.getLogger(SerialBean.class.getName());
-        logger.info("Reading session.");
+
+        // TODO: deserialize the object
+
+        // TODO: add logging
+
     }
 
     /**
@@ -76,7 +83,9 @@ public class SerialBean implements Serializable, HttpSessionActivationListener {
      */
     @Override
     public void sessionWillPassivate(HttpSessionEvent se) {
-        logger.info("Session will passivate.");
+
+        // TODO: add logging
+
     }
 
     /**
@@ -85,6 +94,8 @@ public class SerialBean implements Serializable, HttpSessionActivationListener {
      */
     @Override
     public void sessionDidActivate(HttpSessionEvent se) {
-        logger.info("Session activated.");
+
+        // TODO: add logging
+
     }
 }

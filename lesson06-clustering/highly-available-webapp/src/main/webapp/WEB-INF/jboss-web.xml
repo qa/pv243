@@ -9,10 +9,9 @@
     or in the project's directory.
     -->
 
-    <!-- Enables session passivation.
+    <!-- TODO: Enable session passivation.
     Only 1 session will be active at a time. Rest will be passivated.
     Session data is stored at this location: wildfly-8.0.0.Beta1/standalone/data/infinispan/web/default-host
     -->
-    <max-active-sessions>1</max-active-sessions>
 
 </jboss-web>
