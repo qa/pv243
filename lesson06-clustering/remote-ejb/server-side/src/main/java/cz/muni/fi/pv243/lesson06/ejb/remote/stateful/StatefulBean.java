@@ -22,32 +22,5 @@
 
 package cz.muni.fi.pv243.lesson06.ejb.remote.stateful;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.ejb.Stateful;
-
-import org.jboss.ejb3.annotation.Clustered;
-
-
-/**
- * @author Ondrej Chaloupka
- */
-@Clustered
-@Stateful
 public class StatefulBean implements StatefulRemote {
-
-	private final List<String> stringList = new ArrayList<String>();
-	
-	@Override
-	public void addString(String str) {
-		stringList.add(str);
-	}
-
-	@Override
-	public List<String> getStrings() {
-		return stringList;
-	}
-
-
 }

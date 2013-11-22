@@ -24,12 +24,6 @@ package cz.muni.fi.pv243.lesson06.ejb.remote.stateful;
 
 import java.util.List;
 
-import javax.ejb.Remote;
-
-/**
- * @author Ondrej Chaloupka
- */
-@Remote
 public interface StatefulRemote {
 	/**
 	 * Adding string.

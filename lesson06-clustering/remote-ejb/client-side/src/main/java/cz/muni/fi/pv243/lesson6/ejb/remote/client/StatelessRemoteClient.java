@@ -22,9 +22,6 @@
 
 package cz.muni.fi.pv243.lesson6.ejb.remote.client;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
 
 import cz.muni.fi.pv243.lesson06.ejb.remote.stateless.StatelessRemote;
 
@@ -32,14 +29,11 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Semaphore;
 
-/**
- * @author Ondrej Chaloupka
- */
+
 public class StatelessRemoteClient {
 
 	public static void main(String[] args) throws Exception {
@@ -58,12 +52,7 @@ public class StatelessRemoteClient {
 		
 		while (!"q".equals(input.trim())) {
 
-			for (int i = 0; i < interations; i++) {
-				String nodeName = statelessBean.getNodeName();
-				Integer calls = numberOfCalls.get(nodeName);
-				numberOfCalls.put(nodeName, calls == null ? 1 : ++calls);
-				Thread.sleep(5);
-			}
+			// TODO: call stateless bean method and watch the load balancing
 
 			printingSemaphore.acquire();
 			System.out.print("To exit enter 'q', to continue hit ENTER: ");
@@ -83,13 +72,9 @@ public class StatelessRemoteClient {
 	 */
 	private static StatelessRemote lookupStatelessRemote()
 			throws NamingException {
-		final Properties jndiProperties = new Properties();
-		jndiProperties.put(Context.URL_PKG_PREFIXES,
-				"org.jboss.ejb.client.naming");
-		final Context ctx = new InitialContext(jndiProperties);
+		// TODO: setup properties
 
-		return (StatelessRemote) ctx
-				.lookup("ejb:/lesson6-server-side-1.0.0-SNAPSHOT//StatelessBean!" + StatelessRemote.class.getName());
+		// TODO: jndi lookup for stateless bean
 	}
 
 }

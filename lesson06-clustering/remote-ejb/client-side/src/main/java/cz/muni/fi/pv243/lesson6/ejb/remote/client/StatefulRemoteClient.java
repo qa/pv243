@@ -32,9 +32,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.Properties;
 
-/**
- * @author Ondrej Chaloupka
- */
+
 public class StatefulRemoteClient {
 
 	public static void main(String[] args) throws Exception {
@@ -43,40 +41,8 @@ public class StatefulRemoteClient {
 		String input = "";
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-		Thread.sleep(500); // wait for cluster is prepared
-		System.out.println("To exit enter 'q', to print list of strings 'print', to add string to list on server 'add':");
-		System.out.print("$ ");
-		input = br.readLine().trim();
-		
-		while (!"q".equals(input) && !"quit".equals(input)) {
-			
-			// printing strings from server
-			if(input.startsWith("print")) {
-				System.out.println("Printing strings from server");
-				int number = 1;
-				for(String str: statefulBean.getStrings()) {
-					System.out.println(String.format("String %d: %s", number, str));
-					number++;
-				}
-			}
-			
-			// adding strings to server
-			if(input.startsWith("add")) {
-				String[] splittedString = input.split(" ", 2);
-				String stringToAdd;
-				if(splittedString.length <= 1) {
-					System.out.print("Get me string to add: ");
-					stringToAdd = br.readLine();
-				} else {
-					stringToAdd = splittedString[1];
-				}
-				statefulBean.addString(stringToAdd);
-				System.out.println("String '" + stringToAdd + "' was send to server.");
-			}
-			
-			System.out.print("$ ");
-			input = br.readLine().trim();
-		}
+                // TODO: implement sending string to server and lookuping the list of them
+                // TODO: watch how the cluster behaves when one of the nodes goes down
 	}
 
 	/**
@@ -86,12 +52,10 @@ public class StatefulRemoteClient {
 	 */
 	private static StatefulRemote lookupStatefulRemote() throws NamingException {
 		final Properties jndiProperties = new Properties();
-		jndiProperties.put(Context.URL_PKG_PREFIXES,
-				"org.jboss.ejb.client.naming");
+                // TODO: set up properties
 		final Context ctx = new InitialContext(jndiProperties);
 
-		return (StatefulRemote) ctx
-				.lookup("ejb:/lesson6-server-side-1.0.0-SNAPSHOT//StatefulBean!" + StatefulRemote.class.getName() + "?stateful");
+                // TODO: jndi lookup for stateful bean
 	}
 
 }

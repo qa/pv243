@@ -22,12 +22,6 @@
 
 package cz.muni.fi.pv243.lesson06.ejb.remote.stateless;
 
-import javax.ejb.Remote;
-
-/**
- * @author Ondrej Chaloupka
- */
-@Remote
 public interface StatelessRemote {
 	/**
 	 * @return name of node where this method is called
