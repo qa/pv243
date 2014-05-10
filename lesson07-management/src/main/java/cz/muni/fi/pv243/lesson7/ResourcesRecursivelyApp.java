@@ -29,13 +29,14 @@ import org.jboss.dmr.ModelNode;
  * WildFly8 Java API example - get resources recursively including runtime data
  * 
  * @author Rostislav Svoboda
+ * @author Jitka Kozana
  */
 public class ResourcesRecursivelyApp {
 
     public static void main(String[] args) throws Exception {
 
         
-        ModelControllerClient client = ModelControllerClient.Factory.create(InetAddress.getByName("localhost"), 9999);
+        ModelControllerClient client = ModelControllerClient.Factory.create(InetAddress.getByName("localhost"), 9990);
 
         ModelNode op = new ModelNode();
         

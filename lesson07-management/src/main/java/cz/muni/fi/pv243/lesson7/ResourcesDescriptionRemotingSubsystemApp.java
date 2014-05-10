@@ -37,7 +37,7 @@ public class ResourcesDescriptionRemotingSubsystemApp {
     public static void main(String[] args) throws Exception {
 
         
-        ModelControllerClient client = ModelControllerClient.Factory.create(InetAddress.getByName("localhost"), 9999);
+        ModelControllerClient client = ModelControllerClient.Factory.create(InetAddress.getByName("localhost"), 9990);
 
         ModelNode op = new ModelNode();
         

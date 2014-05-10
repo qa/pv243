@@ -29,13 +29,14 @@ import org.jboss.dmr.ModelNode;
  * WildFly8 Java API example - get release version
  * 
  * @author Rostislav Svoboda
+ * @author Jitka Kozana
  */
 public class ReleaseVersionApp {
 
     public static void main(String[] args) throws Exception {
 
         
-        ModelControllerClient client = ModelControllerClient.Factory.create(InetAddress.getByName("localhost"), 9999);
+        ModelControllerClient client = ModelControllerClient.Factory.create(InetAddress.getByName("localhost"), 9990);
 
         ModelNode op = new ModelNode();
 
